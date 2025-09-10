@@ -32,6 +32,8 @@ trunk, and production rules describe how branches split and grow at certain
 angles. With each iteration, the structure becomes more tree-like, visually 
 approximating real plant growth.
 
+![Example 2](assets/Example2.png)
+
 Beyond mathematics and computer graphics, L-Systems have practical 
 applications in biology, procedural content generation, and art. In biology, 
 they help model how algae or plants develop over time. In computer graphics, 
