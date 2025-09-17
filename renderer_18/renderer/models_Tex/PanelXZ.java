@@ -1,0 +1,108 @@
+/*
+ * Renderer Models. The MIT License.
+ * Copyright (c) 2022 rlkraft@pnw.edu
+ * See LICENSE for details.
+*/
+
+package renderer.models_Tex;
+
+import renderer.scene.*;
+import renderer.scene.primitives.*;
+
+/**
+   Create a flat solid checkerboard panel in the xz-plane.
+*/
+public class PanelXZ extends Model
+{
+   /**
+      Create a flat checkerboard panel in the xz-plane that runs
+      from -1 to 1 in the x-direction and -1 to 1 in the z-direction.
+
+      @param texture  {@link Texture} to use with this {@link Model}
+   */
+   public PanelXZ(final Texture texture)
+   {
+      this(texture, -1, 1, -1, 1);
+   }
+
+
+   /**
+      Create a flat checkerboard panel in the xz-plane with the given dimensions.
+
+      @param texture  {@link Texture} to use with this {@link Model}
+      @param xMin  location of left edge
+      @param xMax  location of right edge
+      @param zMin  location of back edge
+      @param zMax  location of front edge
+   */
+   public PanelXZ(final Texture texture,
+                  final int xMin, final int xMax,
+                  final int zMin, final int zMax)
+   {
+      this(texture, xMin, xMax, zMin, zMax, 0.0);
+   }
+
+
+   /**
+      Create a flat checkerboard panel parallel to the xz-plane with the given dimensions.
+
+      @param texture  {@link Texture} to use with this {@link Model}
+      @param xMin  location of left edge
+      @param xMax  location of right edge
+      @param zMin  location of back edge
+      @param zMax  location of front edge
+      @param y     y-plane that holds the panel
+   */
+   public PanelXZ(final Texture texture,
+                  final int xMin, final int xMax,
+                  final int zMin, final int zMax,
+                  final double y)
+   {
+      super("PanelXZ");
+
+      // Add the given texture to this model.
+      addTexture(texture);
+
+      // Add texture coordinates to this model.
+      addTextureCoord(new TexCoord(0.0, 0.0),
+                      new TexCoord(0.0, 1.0),
+                      new TexCoord(1.0, 1.0),
+                      new TexCoord(1.0, 0.0));
+
+      // Create the checkerboard panel's geometry.
+
+      // An array of indexes to be used to create triangles.
+      final int[][] index = new int[(xMax-xMin)+1][(zMax-zMin)+1];
+
+      // Create the checkerboard of vertices.
+      int i = 0;
+      for (int x = xMin; x <= xMax; ++x)
+      {
+         for (int z = zMin; z <= zMax; ++z)
+         {
+            addVertex(new Vertex(x, y, z));
+            index[x-xMin][z-zMin] = i;
+            ++i;
+         }
+      }
+
+      // Create the checkerboard of triangles.
+      for (int x = 0; x < xMax-xMin; ++x)
+      {
+         for (int z = 0; z < zMax-zMin; ++z)
+         {
+            addPrimitive(new Triangle(index[x  ][z  ],
+                                      index[x  ][z+1],
+                                      index[x+1][z+1],
+                                      0, 1, 2, // texture coordinates
+                                      0));     // texture index
+
+            addPrimitive(new Triangle(index[x+1][z+1],
+                                      index[x+1][z  ],
+                                      index[x  ][z  ],
+                                      2, 3, 0, // texture coordinates
+                                      0));     // texture index
+         }
+      }
+   }
+}//PanelXZ
