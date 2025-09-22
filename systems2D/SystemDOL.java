@@ -79,9 +79,7 @@ public class SystemDOL {
             // Render
             fb.clearFB(); 
             Pipeline.render(scene, fb);
-            fb.dumpFB2File("DOL_System.ppm");
+            fb.dumpFB2File(String.format("DOL_System_%03d.ppm", i + 1));
         }
-
-
     }
 }
