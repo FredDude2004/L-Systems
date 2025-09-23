@@ -20,11 +20,31 @@ import renderer.pipeline.*;
 import renderer.framebuffer.*;
 
 import java.awt.Color;
+import java.io.IOException;
 
-public class SystemDOL {
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+
+public class DOL_System{
+    private static final Logger logger = Logger.getLogger(DOL_System.class.getName());
+
+    public static void initLogger() {
+        try {
+            FileHandler fileHandler = new FileHandler("DOL_System.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+            logger.setLevel(Level.INFO);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error setting up file logger", e);
+        }
+    }
+
     public static String axiom = "F-F-F-F";
-    public static int l = 1;
-    public static int delta = 90;
+    public static final double l = 0.1;
+    public static final int delta = 90;
 
     public static void expand() {
         String newStr = "";
@@ -35,6 +55,12 @@ public class SystemDOL {
                 case 'F': // the only production in this system
                     newStr += "F-F+F+FF-F-F+F";
                     break;
+                case '+':
+                    newStr += "+";
+                    break;
+                case '-':
+                    newStr += "-";
+                    break;
                 default:
                     break;
             }
@@ -43,43 +69,47 @@ public class SystemDOL {
         axiom = newStr;
     }
 
+
     public static void main(String[] args) {
         final Scene scene = new Scene("TurtleGraphics");
         scene.addPosition(new Position(new Model(), "p0"));
+        initLogger();
 
-        final int width  = 1024;
+        final int width = 1024;
         final int height = 1024;
         final FrameBuffer fb = new FrameBuffer(width, height, Color.white);
 
         final Model turtleModel = new Model("DOL_System");
-        final Turtle turtle = new Turtle(turtleModel, 0.0, 0.0, -3.0);
-        final int expansions = 3;
+        final Turtle turtle = new Turtle(turtleModel, 0.75, -0.75, -2.0);
+        final int expansions = 2;
 
         for (int i = 0; i < expansions; ++i) {
-            for (int j = 0; j < axiom.length(); ++j) {
-                switch (axiom.charAt(j)) {
-                    case 'F':
+            expand();
+            logger.info("Current axiom: " + axiom);
+            logger.info("Current expansion: " + (i + 1) + "\n");
+        }
+
+        for (int i = 0; i < axiom.length(); ++i) {
+            switch (axiom.charAt(i)) {
+                case 'F':
                     turtle.forward(l);
                     break;
-                    case '+':
+                case '+':
                     turtle.turn(delta);
                     break;
-                    case '-':
+                case '-':
                     turtle.turn(-delta);
                     break;
-                    default:
+                default:
                     break;
-                }
             }
-            expand(); // expand the axiom
-            turtle.moveTo(0.0, 0.0); // Reset turtle position
-
-            ModelShading.setRandomColors(turtleModel);
-            scene.getPosition(0).setModel(turtleModel);
-            // Render
-            fb.clearFB(); 
-            Pipeline.render(scene, fb);
-            fb.dumpFB2File(String.format("DOL_System_%03d.ppm", i + 1));
         }
+
+        ModelShading.setColor(turtleModel, Color.black);
+        scene.getPosition(0).setModel(turtleModel);
+        // Render
+        fb.clearFB();
+        Pipeline.render(scene, fb);
+        fb.dumpFB2File("DOL_System.png", "png");
     }
 }
