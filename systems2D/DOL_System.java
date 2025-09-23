@@ -110,6 +110,6 @@ public class DOL_System{
         // Render
         fb.clearFB();
         Pipeline.render(scene, fb);
-        fb.dumpFB2File("DOL_System.ppm");
+        fb.dumpFB2File("DOL_System.png", "png");
     }
 }
