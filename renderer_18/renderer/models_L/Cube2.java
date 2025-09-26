@@ -12,7 +12,7 @@ import renderer.scene.primitives.*;
 /**
    Create a wireframe model of a cube with its center
    at the origin, having edge length 2, and with its
-   corners at {@code (±1, ±1, ±1)}.
+   corners at {@code (Â±1, Â±1, Â±1)}.
 <p>
    This version of the cube model has each face of
    the cube cut up by an n by m grid of lines.
@@ -49,7 +49,7 @@ public class Cube2 extends Model
 {
    /**
       Create a cube with its center at the origin, having edge
-      length 2, with its corners at {@code (±1, ±1, ±1)}. and
+      length 2, with its corners at {@code (Â±1, Â±1, Â±1)}. and
       with two perpendicular grid lines going across the middle
       of each of the cube's faces.
    */
@@ -61,7 +61,7 @@ public class Cube2 extends Model
 
    /**
       Create a cube with its center at the origin, having edge
-      length 2, with its corners at {@code (±1, ±1, ±1)}, and
+      length 2, with its corners at {@code (Â±1, Â±1, Â±1)}, and
       with each of the cube's faces containing the given number
       of grid lines parallel to the x, y, and z directions.
 

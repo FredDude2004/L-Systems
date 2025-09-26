@@ -36,7 +36,7 @@ import renderer.scene.primitives.*;
 public class Square extends Model
 {
    /**
-      Create a textured square in the xy-plane with corners {@code (±1, ±1, 0)}.
+      Create a textured square in the xy-plane with corners {@code (Â±1, Â±1, 0)}.
 
       @param texture  {@link Texture} to use with this {@link Model}
    */
@@ -47,7 +47,7 @@ public class Square extends Model
 
 
    /**
-      Create a textured square in the xy-plane with corners {@code (±r, ±r, 0)}.
+      Create a textured square in the xy-plane with corners {@code (Â±r, Â±r, 0)}.
 
       @param texture  {@link Texture} to use with this {@link Model}
       @param r  determines the corners of the square

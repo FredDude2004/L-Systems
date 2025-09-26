@@ -13,7 +13,7 @@ import renderer.scene.primitives.Triangle;
    Create a textured model of a regular tetrahedron
    with its center at the origin, having edge length
    {@code 2*sqrt(2)}, and with its vertices at corners
-   of the cube with vertices {@code (±1, ±1, ±1)}.
+   of the cube with vertices {@code (Â±1, Â±1, Â±1)}.
 <p>
    The square texture is "folded" over each half
    (two triangles) of the tetrahedron.
@@ -32,7 +32,7 @@ public class Tetrahedron extends Model
       Create a textured regular tetrahedron with its center at
       the origin, having edge length {@code 2*sqrt(2)},
       and with its vertices at corners of the cube with
-      vertices {@code (±1, ±1, ±1)}.
+      vertices {@code (Â±1, Â±1, Â±1)}.
 
       @param texture0  {@link Texture} for one half of the tetrahedron
       @param texture1  {@link Texture} for other half of the tetrahedron

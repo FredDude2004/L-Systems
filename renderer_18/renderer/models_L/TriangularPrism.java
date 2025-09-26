@@ -79,7 +79,7 @@ public class TriangularPrism extends Model
    <p>
       If {@code theta = 0}, then there are no tetrahedrons at the ends of the prism.
    <p>
-      If {@code theta = arctan(sqrt(2)) = 54.736°}, then the tetrahedrons are regular.
+      If {@code theta = arctan(sqrt(2)) = 54.736Â°}, then the tetrahedrons are regular.
 
       @param r      radius of circle in xz-plane that the equilateral triangle is inscribed in
       @param h      the body of the prism runs from -h to h along the y-axis

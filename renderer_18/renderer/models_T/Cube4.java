@@ -12,7 +12,7 @@ import renderer.scene.primitives.*;
 /**
    Create a solid model of a cube with its center
    at the origin, having edge length 2, and with its
-   corners at {@code (±1, ±1, ±1)}.
+   corners at {@code (Â±1, Â±1, Â±1)}.
 <p>
    This version of the cube model has the top and bottom
    faces of the cube cut up by a triangle fan and the
@@ -51,7 +51,7 @@ public class Cube4 extends Model
 {
    /**
       Create a cube with its center at the origin, having edge
-      length 2, with its corners at {@code (±1, ±1, ±1)}. with
+      length 2, with its corners at {@code (Â±1, Â±1, Â±1)}. with
       a triangle fan of eight triangles in top and bottom faces,
       and two perpendicular lines cutting each of the front,
       back, right, and left faces.
@@ -64,7 +64,7 @@ public class Cube4 extends Model
 
    /**
       Create a cube with its center at the origin, having edge
-      length 2, with its corners at {@code (±1, ±1, ±1)}, and
+      length 2, with its corners at {@code (Â±1, Â±1, Â±1)}, and
       with the top and bottom faces containing a triangle fan
       with the given number of triangles along each of the x,
       and z directions.

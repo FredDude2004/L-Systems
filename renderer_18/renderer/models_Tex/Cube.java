@@ -12,7 +12,7 @@ import renderer.scene.primitives.*;
 /**
    Create a textured model of a cube with its center
    at the origin, having edge length 2, and with its
-   vertices at {@code (±1, ±1, ±1)}.
+   vertices at {@code (Â±1, Â±1, Â±1)}.
 <p>
    The square texture is placed on each of the six
    faces of the cube.
@@ -52,7 +52,7 @@ public class Cube extends Model
 {
    /**
       Create a textured cube with its center at the origin, having
-      edge length 2, and with its vertices at {@code (±1, ±1, ±1)}.
+      edge length 2, and with its vertices at {@code (Â±1, Â±1, Â±1)}.
 
       @param texture  {@link Texture} to use with this {@link Model}
    */
@@ -64,7 +64,7 @@ public class Cube extends Model
 
    /**
       Create a textured cube with its center at the origin, having
-      edge length 2, and with its vertices at {@code (±1, ±1, ±1)}.
+      edge length 2, and with its vertices at {@code (Â±1, Â±1, Â±1)}.
 
       @param texture  {@link Texture} to use with this {@link Model}
       @param name  a {link String} that is a name for this {@code Cube}
@@ -84,7 +84,7 @@ public class Cube extends Model
 
    /**
       Create a textured cube with its center at the origin, having
-      edge length 2, and with its vertices at {@code (±1, ±1, ±1)}.
+      edge length 2, and with its vertices at {@code (Â±1, Â±1, Â±1)}.
 
       @param texture0  {@link Texture} to use on the bottom face
       @param texture1  {@link Texture} to use on the front face

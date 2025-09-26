@@ -22,7 +22,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
    public final MeshType type;
 
    /**
-      Create a square in the xy-plane with corners {@code (±1, ±1, 0)}.
+      Create a square in the xy-plane with corners {@code (Â±1, Â±1, 0)}.
    */
    public SquareGrid( )
    {
@@ -31,7 +31,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
 
 
    /**
-      Create a square in the xy-plane with corners {@code (±1, ±1, 0)} and
+      Create a square in the xy-plane with corners {@code (Â±1, Â±1, 0)} and
       with {@code n} grid lines parallel to each of the x and y axes.
 
       @param n  number of grid lines parallel to the axes
@@ -44,7 +44,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
 
 
    /**
-      Create a square in the xy-plane with corners {@code (±1, ±1, 0)} and
+      Create a square in the xy-plane with corners {@code (Â±1, Â±1, 0)} and
       with {@code n} grid lines parallel to the x-axis and
       with {@code k} grid lines parallel to the y-axis.
    <p>
@@ -65,7 +65,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
 
 
    /**
-      Create a square in the xy-plane with corners {@code (±r, ±r, 0)}.
+      Create a square in the xy-plane with corners {@code (Â±r, Â±r, 0)}.
 
       @param r  determines the corners of the square
       @throws IllegalArgumentException if {@code r} is less than or equal to 0
@@ -77,7 +77,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
 
 
    /**
-      Create a square in the xy-plane with corners {@code (±r, ±r, 0)} and
+      Create a square in the xy-plane with corners {@code (Â±r, Â±r, 0)} and
       with {@code n} grid lines parallel to each of the x and y axes.
 
       @param r  determines the corners of the square
@@ -92,7 +92,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
 
 
    /**
-      Create a square in the xy-plane with corners {@code (±r, ±r, 0)} and
+      Create a square in the xy-plane with corners {@code (Â±r, Â±r, 0)} and
       with {@code n} grid lines parallel to the x-axis and
       with {@code k} grid lines parallel to the y-axis.
    <p>
@@ -115,7 +115,7 @@ public class SquareGrid extends Model implements MeshMaker_TP
 
 
    /**
-      Create a square in the xy-plane with corners {@code (±r, ±r, 0)} and
+      Create a square in the xy-plane with corners {@code (Â±r, Â±r, 0)} and
       with {@code n} grid lines parallel to the x-axis and
       with {@code k} grid lines parallel to the y-axis.
    <p>

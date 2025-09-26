@@ -52,7 +52,7 @@ public class Dodecahedron extends Model
                    r = 1/t,
                   r2 = r * r;
       //https://en.wikipedia.org/wiki/Regular_dodecahedron#Cartesian_coordinates
-      // (±r, ±r, ±r)
+      // (Â±r, Â±r, Â±r)
       addVertex(new Vertex(-r, -r, -r),
                 new Vertex(-r, -r,  r),
                 new Vertex(-r,  r, -r),
@@ -62,19 +62,19 @@ public class Dodecahedron extends Model
                 new Vertex( r,  r, -r),
                 new Vertex( r,  r,  r));
 
-      // (0, ±r2, ±1)
+      // (0, Â±r2, Â±1)
       addVertex(new Vertex( 0, -r2, -1),
                 new Vertex( 0, -r2,  1),
                 new Vertex( 0,  r2, -1),
                 new Vertex( 0,  r2,  1));
 
-      // (±r2, ±1, 0)
+      // (Â±r2, Â±1, 0)
       addVertex(new Vertex(-r2, -1,  0),
                 new Vertex(-r2,  1,  0),
                 new Vertex( r2, -1,  0),
                 new Vertex( r2,  1,  0));
 
-      // (±1, 0, ±r2)
+      // (Â±1, 0, Â±r2)
       addVertex(new Vertex(-1,  0, -r2),
                 new Vertex( 1,  0, -r2),
                 new Vertex(-1,  0,  r2),
@@ -84,7 +84,7 @@ public class Dodecahedron extends Model
       // on a sphere of radius sqrt(3), and with edge length
       //    2/t = 4/(1 + sqrt(5)) = sqrt(5) - 1 = 1.2361.
       //https://en.wikipedia.org/wiki/Regular_dodecahedron#Cartesian_coordinates
-      // (±1, ±1, ±1)
+      // (Â±1, Â±1, Â±1)
       addVertex(new Vertex(-1, -1, -1),
                 new Vertex(-1, -1,  1),
                 new Vertex(-1,  1, -1),
@@ -94,19 +94,19 @@ public class Dodecahedron extends Model
                 new Vertex( 1,  1, -1),
                 new Vertex( 1,  1,  1));
 
-      // (0, ±r, ±t)
+      // (0, Â±r, Â±t)
       addVertex(new Vertex( 0, -r, -t),
                 new Vertex( 0, -r,  t),
                 new Vertex( 0,  r, -t),
                 new Vertex( 0,  r,  t));
 
-      // (±r, ±t, 0)
+      // (Â±r, Â±t, 0)
       addVertex(new Vertex(-r, -t,  0),
                 new Vertex(-r,  t,  0),
                 new Vertex( r, -t,  0),
                 new Vertex( r,  t,  0));
 
-      // (±t, 0, ±r)
+      // (Â±t, 0, Â±r)
       addVertex(new Vertex(-t,  0, -r),
                 new Vertex( t,  0, -r),
                 new Vertex(-t,  0,  r),

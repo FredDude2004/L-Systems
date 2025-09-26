@@ -13,8 +13,8 @@ import renderer.scene.primitives.Triangle;
    Create a textured model of a regular octahedron
    with its center at the origin, having side length
    {@code  sqrt(2) = 1.4142},with its center plane given
-   by the four vertices {@code  (±1, 0, ±1)}. and with
-   the top and bottom vertices being {@code  (0, ±1, 0)}.
+   by the four vertices {@code  (Â±1, 0, Â±1)}. and with
+   the top and bottom vertices being {@code  (0, Â±1, 0)}.
 <p>
    The square texture is "folded" onto each of the four triangles
    that make up the top and bottom halves of the octahedron. The
@@ -34,8 +34,8 @@ public class Octahedron extends Model
       Create a textured regular octahedron with its center at the
       origin, having side length {@code  sqrt(2) = 1.4142},
       with its center plane given by the four vertices
-      {@code  (±1, 0, ±1)}. and with the top and bottom
-      vertices being {@code  (0, ±1, 0)}.
+      {@code  (Â±1, 0, Â±1)}. and with the top and bottom
+      vertices being {@code  (0, Â±1, 0)}.
 
       @param texture0  {@link Texture} for one half of the octahedron
       @param texture1  {@link Texture} for other half of the octahedron

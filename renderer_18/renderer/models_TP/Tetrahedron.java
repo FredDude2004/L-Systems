@@ -14,7 +14,7 @@ import renderer.scene.util.MeshMaker;
    Create a solid model of a regular tetrahedron
    with its center at the origin, having edge length
    {@code 2*sqrt(2)}, and with its vertices at corners
-   of the cube with vertices {@code (±1, ±1, ±1)}.
+   of the cube with vertices {@code (Â±1, Â±1, Â±1)}.
 <p>
    See <a href="https://en.wikipedia.org/wiki/Tetrahedron" target="_top">
                 https://en.wikipedia.org/wiki/Tetrahedron</a>
@@ -33,7 +33,7 @@ public class Tetrahedron extends Model implements MeshMaker
       Create a regular tetrahedron with its center at
       the origin, having edge length {@code 2*sqrt(2)},
       and with its vertices at corners of the cube with
-      vertices {@code (±1, ±1, ±1)}.
+      vertices {@code (Â±1, Â±1, Â±1)}.
    */
    public Tetrahedron()
    {
@@ -91,7 +91,7 @@ public class Tetrahedron extends Model implements MeshMaker
       Create a regular tetrahedron with its center at
       the origin, having edge length {@code 2*sqrt(2)},
       and with its vertices at corners of the cube with
-      vertices {@code (±1, ±1, ±1)}.
+      vertices {@code (Â±1, Â±1, Â±1)}.
       <p>
       Add line segments fanning out from each vertex to
       its opposite edge.

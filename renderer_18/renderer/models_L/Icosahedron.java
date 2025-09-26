@@ -51,7 +51,7 @@ public class Icosahedron extends Model
       final double t = (1 + Math.sqrt(5))/2;  // golden ratio
       final double r = 1/t;
       //https://en.wikipedia.org/wiki/Regular_icosahedron#Cartesian_coordinates
-      // All cyclic permutations of (0, ±r, ±1).
+      // All cyclic permutations of (0, Â±r, Â±1).
       addVertex(new Vertex(-r,  1,  0),
                 new Vertex( r,  1,  0),
                 new Vertex(-r, -1,  0),
@@ -71,7 +71,7 @@ public class Icosahedron extends Model
       //https://en.wikipedia.org/wiki/Regular_icosahedron#Cartesian_coordinates
       // and also
       //https://github.com/mrdoob/three.js/blob/master/src/geometries/IcosahedronGeometry.js
-      // All cyclic permutations of (0, ±1, ±t).
+      // All cyclic permutations of (0, Â±1, Â±t).
       addVertex(new Vertex(-1,  t,  0),
                 new Vertex( 1,  t,  0),
                 new Vertex(-1, -t,  0),

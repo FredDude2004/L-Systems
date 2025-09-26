@@ -12,7 +12,7 @@ import renderer.scene.primitives.*;
 /**
    Create a wireframe model of a cube with its center
    at the origin, having edge length 2, and with its
-   vertices at {@code (±1, ±1, ±1)}.
+   vertices at {@code (Â±1, Â±1, Â±1)}.
 <p>
    Here is a picture showing how the cube's eight
    corners are labeled.
@@ -49,7 +49,7 @@ public class Cube extends Model
 {
    /**
       Create a cube with its center at the origin, having edge
-      length 2, and with its vertices at {@code (±1, ±1, ±1)}.
+      length 2, and with its vertices at {@code (Â±1, Â±1, Â±1)}.
    */
    public Cube( )
    {
@@ -59,7 +59,7 @@ public class Cube extends Model
 
    /**
       Create a cube with its center at the origin, having edge
-      length 2, and with its vertices at {@code (±1, ±1, ±1)}.
+      length 2, and with its vertices at {@code (Â±1, Â±1, Â±1)}.
 
       @param name  a {link String} that is a name for this {@code Cube}
    */

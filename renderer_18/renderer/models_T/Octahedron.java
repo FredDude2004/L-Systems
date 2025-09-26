@@ -14,8 +14,8 @@ import renderer.scene.util.MeshMaker;
    Create a solid model of a regular octahedron
    with its center at the origin, having side length
    {@code  sqrt(2) = 1.4142},with its center plane given
-   by the four vertices {@code  (±1, 0, ±1)}. and with
-   the top and bottom vertices being {@code  (0, ±1, 0)}.
+   by the four vertices {@code  (Â±1, 0, Â±1)}. and with
+   the top and bottom vertices being {@code  (0, Â±1, 0)}.
 <p>
    See <a href="http://en.wikipedia.org/wiki/Octahedron" target="_top">
                 http://en.wikipedia.org/wiki/Octahedron</a>
@@ -36,8 +36,8 @@ public class Octahedron extends Model implements MeshMaker
       Create a regular octahedron with its center at the
       origin, having side length {@code  sqrt(2) = 1.4142},
       with its center plane given by the four vertices
-      {@code  (±1, 0, ±1)}. and with the top and bottom
-      vertices being {@code  (0, ±1, 0)}.
+      {@code  (Â±1, 0, Â±1)}. and with the top and bottom
+      vertices being {@code  (0, Â±1, 0)}.
    */
    public Octahedron()
    {
@@ -83,8 +83,8 @@ public class Octahedron extends Model implements MeshMaker
       Create a regular octahedron with its center at the
       origin, having side length {@code  sqrt(2) = 1.4142},
       with its center plane given by the four vertices
-      {@code  (±1, 0, ±1)}. and with the top and bottom
-      vertices being {@code  (0, ±1, 0)}.
+      {@code  (Â±1, 0, Â±1)}. and with the top and bottom
+      vertices being {@code  (0, Â±1, 0)}.
       <p>
       Add line segments fanning out from the top and bottom
       vertices to the sides around the center plane.
@@ -102,8 +102,8 @@ public class Octahedron extends Model implements MeshMaker
       Create a regular octahedron with its center at the
       origin, having side length {@code  sqrt(2) = 1.4142},
       with its center plane given by the four vertices
-      {@code  (±1, 0, ±1)}. and with the top and bottom
-      vertices being {@code  (0, ±1, 0)}.
+      {@code  (Â±1, 0, Â±1)}. and with the top and bottom
+      vertices being {@code  (0, Â±1, 0)}.
       <p>
       Add line segments fanning out from each vertex to
       its opposite sides.
@@ -125,8 +125,8 @@ public class Octahedron extends Model implements MeshMaker
       Create a regular octahedron with its center at the
       origin, having side length {@code  sqrt(2) = 1.4142},
       with its center plane given by the four vertices
-      {@code  (±1, 0, ±1)}. and with the top and bottom
-      vertices being {@code  (0, ±1, 0)}.
+      {@code  (Â±1, 0, Â±1)}. and with the top and bottom
+      vertices being {@code  (0, Â±1, 0)}.
       <p>
       Add line segments fanning out from each vertex to
       its opposite sides.
