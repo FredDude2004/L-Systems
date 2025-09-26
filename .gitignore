@@ -1,5 +1,11 @@
+# Javadoc
+./renderer_18/html
+
 # Compiled class file
 *.class
+
+# Products of running the program
+*.ppm
 
 # Log file
 *.log
