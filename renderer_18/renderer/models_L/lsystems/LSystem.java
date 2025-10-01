@@ -1,6 +1,6 @@
 package renderer.models_L.lsystems;
 
-import renderer.models_L.lsystem.*;
+import renderer.models_L.lsystems.*;
 import renderer.models_L.turtlegraphics.*;
 import renderer.scene.util.ModelShading;
 import renderer.framebuffer.*;
@@ -12,11 +12,19 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class LSystem {
-    private Model lSystem;
     private String axiom;
-    private int stepSize;
-    private int delta;
-    private HashMap<char, String> productions;
+    private double stepSize;
+    private double delta;
+    private HashMap<Character, String> productions = new HashMap<>();
+
+    /**
+      @param axiom       the starting {@link String} that the productions will expand
+      @param stepSize    the distnace the turtle will walk with each step foreward
+      @param delta       the angle that the turtle will turn, pitch or roll
+    */
+    public LSystem(final String axiom, final double stepSize, final double delta) {
+        this(axiom, stepSize, delta, new ArrayList<Production>());
+    }
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
@@ -57,40 +65,50 @@ public class LSystem {
 
     /**
       Rewrite the string using the {@code LSystem}'s productions
+
+      @param iterations   the amount of expansions that will happen to the lSystem
     */
-    public void expand() {
+    public void expand(int iterations) {
         String newStr = "";
 
-        for (int i = 0; i < this.axiom.length(); ++i) {
-            if (this.productions.containsKey(axiom.charAt(i))) {
-                newStr += this.productions.containsKey(axiom.charAt(i));
-            } else {
-                newStr += axiom.charAt(i);
+        for (int i = 0; i < iterations; ++i) {
+            for (int j = 0; j < this.axiom.length(); ++j) {
+                if (this.productions.containsKey(axiom.charAt(j))) {
+                    newStr += this.productions.get(axiom.charAt(j));
+                } else {
+                    newStr += axiom.charAt(j);
+                }
             }
+            System.out.println("Iteration: " + i + " newStr: " + newStr);
+            this.axiom = newStr;
         }
 
-        this.axiom = newStr;
     }
 
-    public void draw() {
-        double branchX;
-        double branchY;
+    /**
+      Draws the current l-system to a Model and returns it
+    */
+    public Model draw() {
+        Model lSystem = new Model("lSystem");
+        Turtle turtle = new Turtle(lSystem, "lSystem", 0.0, 0.0, -25.0);
+        double startBranchX = 0.0;
+        double startBranchY = 0.0;
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch(axiom.charAt(i)) {
                 case 'F':                                   // move foreward by this.stepSize
-                    this.turtle.forward(this.stepSize);
+                    turtle.forward(this.stepSize);
                     break;
                 case 'f':                                   // move forward without drawing a line
-                    this.turtle.penUp();
-                    this.turtle.forward(this.stepSize);
-                    this.turtle.penDown();
+                    turtle.penUp();
+                    turtle.forward(this.stepSize);
+                    turtle.penDown();
                     break;
                 case '+':                                   // turn the turtle in the positive direction (counter-clokwise)
-                    this.turtle.turn(-this.delta);
+                    turtle.turn(-this.delta);
                     break;
                 case '-':                                   // turn the turtle in the negative direction (clockwise)
-                    this.turtle.turn(this.delta);
+                    turtle.turn(this.delta);
                     break;
                 case '^':                                   // pitch up
                     break;
@@ -101,19 +119,19 @@ public class LSystem {
                 case '/':                                   // roll right
                     break;
                 case '|':                                   // turn around
-                    this.turtle.turn(180.0);
+                    turtle.turn(180.0);
                     break;
                 case '$':                                   // Rotate the turtle to vertical
-                    this.turtle.setHeading(0.0);
+                    turtle.setHeading(0.0);
                     break;
                 case '[':                                   // start a branch
-                    branchX = this.turtle.getX();
-                    branchY = this.turtle.getY();
+                    startBranchX = turtle.getXPos();
+                    startBranchY = turtle.getYPos();
                     break;
                 case ']':                                   // move turtle back to start of branch
-                    this.turtle.penUp();
-                    this.turtle.moveTo(branchX, branchY);
-                    this.turtle.penDown();
+                    turtle.penUp();
+                    turtle.moveTo(startBranchX, startBranchY);
+                    turtle.penDown();
                     break;
                 case '{':
                     break;
@@ -135,5 +153,8 @@ public class LSystem {
                     break;
             }
         }
+
+
+        return lSystem;
     }
 }
