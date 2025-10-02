@@ -15,6 +15,8 @@ public class LSystem {
     private String axiom;
     private double stepSize;
     private double delta;
+    private double xHome;
+    private double yHome;
     private HashMap<Character, String> productions = new HashMap<>();
 
     /**
@@ -23,23 +25,56 @@ public class LSystem {
       @param delta       the angle that the turtle will turn, pitch or roll
     */
     public LSystem(final String axiom, final double stepSize, final double delta) {
-        this(axiom, stepSize, delta, new ArrayList<Production>());
+        this(axiom, stepSize, delta, 0.0, 0.0, new ArrayList<Production>());
     }
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
       @param stepSize    the distnace the turtle will walk with each step foreward
       @param delta       the angle that the turtle will turn, pitch or roll
+      @param xHome       the X coordinate of the L-Systems Turtle
+      @param YHome       the Y coordinate of the L-Systems Turtle
+    */
+    public LSystem(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome) {
+        this(axiom, stepSize, delta, xHome, yHome, new ArrayList<Production>());
+    }
+
+    /**
+      @param axiom       the starting {@link String} that the productions will expand
+      @param stepSize    the distnace the turtle will walk with each step foreward
+      @param delta       the angle that the turtle will turn, pitch or roll
+      @param xHome       the X coordinate of the L-Systems Turtle
+      @param YHome       the Y coordinate of the L-Systems Turtle
       @param productions the productionst that each character will map to
     */
-    public LSystem(final String axiom, final double stepSize, final double delta, final ArrayList<Production> productions) {
+    public LSystem(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome, final ArrayList<Production> productions) {
         this.axiom = axiom;
         this.stepSize = stepSize;
         this.delta = delta;
+        this.xHome = xHome;
+        this.yHome = yHome;
 
         for (Production p : productions) {
             this.productions.put(p.predecessor, p.successor);
         }
+    }
+
+    /**
+      Change the starting X of the Turtle
+
+      @param newXHome  a double that sets the X corrdinate
+    */
+    public final void setXHome(final double newXHome) {
+        this.xHome = newXHome;
+    }
+
+    /**
+      Change the starting Y of the Turtle
+
+      @param newYHome  a double that sets the Y corrdinate
+    */
+    public final void setYHome(final double newYHome) {
+        this.yHome = newYHome;
     }
 
     /**
@@ -66,7 +101,7 @@ public class LSystem {
     /**
       Rewrite the string using the {@code LSystem}'s productions
 
-      @param iterations   the amount of expansions that will happen to the lSystem
+      @param iterations  the amount of expansions that will happen to the lSystem
     */
     public void expand(int iterations) {
         String newStr = "";
@@ -79,10 +114,9 @@ public class LSystem {
                     newStr += axiom.charAt(j);
                 }
             }
-            System.out.println("Iteration: " + i + " newStr: " + newStr);
+
             this.axiom = newStr;
         }
-
     }
 
     /**
@@ -90,7 +124,7 @@ public class LSystem {
     */
     public Model draw() {
         Model lSystem = new Model("lSystem");
-        Turtle turtle = new Turtle(lSystem, "lSystem", 0.0, 0.0, -25.0);
+        Turtle turtle = new Turtle(lSystem,  this.xHome, this.yHome, -25.0);
         double startBranchX = 0.0;
         double startBranchY = 0.0;
 
