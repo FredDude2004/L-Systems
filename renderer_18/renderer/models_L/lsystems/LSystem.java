@@ -82,7 +82,6 @@ public class LSystem {
             System.out.println("Iteration: " + i + " newStr: " + newStr);
             this.axiom = newStr;
         }
-
     }
 
     /**
@@ -153,7 +152,6 @@ public class LSystem {
                     break;
             }
         }
-
 
         return lSystem;
     }

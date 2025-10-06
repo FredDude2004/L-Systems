@@ -5,8 +5,8 @@
  * L-Systems, which are deterministic and context free.
  *
  * The System in this program has these properties
- * axiom: F-F-F-F
- * p: F -> F-F+F+FF-F-F+F
+ * axiom: F
+ * p: F -> FF+[+F-F-F]-[-F+F+F]
  *
  * Where: F represents a line with a length of l
  *        + represents a turn in the positive direction by the angle delta
