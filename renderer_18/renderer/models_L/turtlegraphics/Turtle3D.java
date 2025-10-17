@@ -1,6 +1,6 @@
 /*
  * Renderer Models. The MIT License.
- * Copyright (c) 2022 rlkraft@pnw.edu
+ * Copyright (c) 2025 rlkraft@pnw.edu kduchesn@pnw.edu ahmed208@pnw.edu
  * See LICENSE for details.
 */
 
@@ -15,11 +15,12 @@ import renderer.scene.primitives.*;
 public class Turtle {
     public final Model model;
     public final String name;
-    public final double z;
+    public final double zHome;
     public final double xHome;
     public final double yHome;
     private double xPos;
     private double yPos;
+    private double zPos;
     private double heading;
     private boolean penDown;
     private double stepSize; // see the resize() method
