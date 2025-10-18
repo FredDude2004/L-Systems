@@ -197,6 +197,13 @@ public class Turtle3D {
         return zPos;
     }
 
+    /**
+     * Perform Rodrigues' Equation rotating {@link Vector} v around {@link Vector} k and returning the rotated vector
+     * @param v Vector that is to be rotated
+     * @param k Vector that is rotated about
+     * @param alpha the angle to rotate the vector v
+     * @return vPrime the rotated {@link Vector}
+     */
     private static Vector rodriguesEquation(final Vector v, final Vector k, final double alpha) {
         Vector vPrime = v * Math.cos(alpha) +
                 k.crossProduct(v) * Math.sin(alpha) +
@@ -205,6 +212,10 @@ public class Turtle3D {
         return vPrime;
     }
 
+    /**
+     * turn the turtle's Yaw by angle alpha
+     * @param alpha double of the rotation angle
+     */
     public void yaw(final double alpha) {
         // L' = L*cos(α) + (U x L)*sin(α) + U*(U•L)(1-cos(α))
         // H' = H*cos(α) + (U x H)*sin(α) + U*(U•H)(1-cos(α))
@@ -215,6 +226,10 @@ public class Turtle3D {
         this.heading = headingPrime;
     }
 
+    /**
+     * turn the turtle's Pitch by angle alpha
+     * @param alpha double of the rotation angle
+     */
     public void pitch(final double alpha) {
         // H' = H*cos(α) + (L x H)*sin(α) + L*(L•H)(1-cos(α))
         // U' = U*cos(α) + (L x U)*sin(α) + L*(L•U)(1-cos(α))
@@ -225,6 +240,10 @@ public class Turtle3D {
         this.up = upPrime;
     }
 
+    /**
+     * turn the turtle's Roll by angle alpha
+     * @param alpha double of the rotation angle
+     */
     public void roll(final double alpha) {
         // U' = U*cos(α) + (H x U)*sin(α) + H*(H•U)(1-cos(α))
         // L' = L*cos(α) + (H x L)*sin(α) + H*(H•L)(1-cos(α))
