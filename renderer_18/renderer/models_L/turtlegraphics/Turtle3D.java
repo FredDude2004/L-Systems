@@ -4,106 +4,136 @@
  * See LICENSE for details.
 */
 
+/*
+ * To implement a 3D turtle we need to keep track of three unit vectors. Which will
+ * represent the local 3D axes of the Turtle. The turtle has three different rotations
+ * that it can perform.
+ *
+ *      Yaw:    which is the standard turn that the turtle performs in the 2D version
+ *              and is around the turtle's Z-axis.
+ *
+ *      Pitch:  which can be thought of as the turtle pointing his nose up or down and
+ *              is around the turtle's X-axis.
+ *
+ *      Roll:   which is the rotation around the turtle's Y-axis and is like a plane
+ *              doing a barrel-roll.
+ *
+ * To perform these rotations we need to keep in mind that the axes of the turtle are
+ * local, not the global X, Y and Z axes. To perform a rotation around an arbitrary
+ * axis in space you can use
+ *
+ *      Rodrigues' Equation: v' = v*cos(α) + (k x v)*sin(α) + k*(k•v)(1-cos(α))
+ *
+ * This formula allows us to rotate a vector v around an arbitrary vector k.
+ * To avoid confusion from here on we will give the turtle's local axes a different name
+ *
+ *      X-axis -> LeftVector      (L)
+ *      X-axis -> HeadingVector   (H)
+ *      Z-axis -> UpVector        (U)
+ *
+ * Yaw, for example, we would need to rotate both L and H vectors around U.
+ *
+ *      L' = L*cos(α) + (U x L)*sin(α) + U*(U•L)(1-cos(α))
+ *      H' = H*cos(α) + (U x H)*sin(α) + U*(U•H)(1-cos(α))
+ *
+ * For Pitch you would rotate H and U around L.
+ *
+ *      H' = H*cos(α) + (L x H)*sin(α) + L*(L•H)(1-cos(α))
+ *      U' = U*cos(α) + (L x U)*sin(α) + L*(L•U)(1-cos(α))
+ *
+ * And for Roll you would rotate U and L around H.
+ *
+ *      U' = U*cos(α) + (H x U)*sin(α) + H*(H•U)(1-cos(α))
+ *      L' = L*cos(α) + (H x L)*sin(α) + H*(H•L)(1-cos(α))
+ *
+ * This now allows us to tell the turtle to Yaw, Pitch and Roll with a set angle.
+ * The next function we need to add to the turtle is the ability to move foreward
+ * and backward. This is much simpler than the rotations. We simply multiply Heading
+ * by the stepSize and add each entry to the turtle's x, y and z respectively.
+ *
+ *      x' = x + stepSize * H.x
+ *      y' = y + stepSize * H.y
+ *      z' = z + stepSize * H.z
+ *
+ * With all of that we now have a funcitoning 3D turtle. Of course there are the other
+ * functions that it should have, like penUp and penDown, but that's much less interesting
+*/
+
 package renderer.models_L.turtlegraphics;
 
 import renderer.scene.*;
+import renderer.scene.Vector;
 import renderer.scene.primitives.*;
 
 /**
  * https://www.clear.rice.edu/comp360/lectures/K10188_C001.pdf
  */
-public class Turtle {
+public class Turtle3D {
     public final Model model;
     public final String name;
-    public final double zHome;
-    public final double xHome;
-    public final double yHome;
+
+    private double xHome;
+    private double yHome;
+    private double zHome;
+
     private double xPos;
     private double yPos;
     private double zPos;
-    private double heading;
+
+    private Vector left;
+    private Vector heading;
+    private Vector up;
+
     private boolean penDown;
     private double stepSize; // see the resize() method
 
-    /**
-     * @param model a reference to the {link Model} that this {@code Turtle} is
-     *              builing
-     * @throws NullPointerException if {@code model} is {@code null}
-     */
-    public Turtle(final Model model) {
-        this(model, model.name, 0, 0, 0);
-    }
-
-    /**
+    /*
      * @param model a reference to the {@link Model} that this {@code Turtle} is
-     *              builing
-     * @param name  a {@link String} that is a name for this {@code Turtle}
-     * @throws NullPointerException if {@code model} is {@code null}
-     * @throws NullPointerException if {@code name} is {@code null}
-     */
-    public Turtle(final Model model, final String name) {
-        this(model, name, 0, 0, 0);
-    }
-
-    /**
-     * @param model a reference to the {@link Model} that this {@code Turtle} is
-     *              builing
-     * @param z     the z-plane for this {@code Turtle}
-     * @throws NullPointerException if {@code model} is {@code null}
-     */
-    public Turtle(final Model model, final double z) {
-        this(model, model.name, 0, 0, z);
-    }
-
-    /**
-     * @param model a reference to the {@link Model} that this {@code Turtle} is
-     *              builing
-     * @param name  a {@link String} that is a name for this {@code Turtle}
-     * @param z     the z-plane for this {@code Turtle}
-     * @throws NullPointerException if {@code model} is {@code null}
-     * @throws NullPointerException if {@code name} is {@code null}
-     */
-    public Turtle(final Model model, final String name, final double z) {
-        this(model, name, 0, 0, z);
-    }
-
-    /**
-     * @param model a reference to the {@link Model} that this {@code Turtle} is
-     *              builing
+     * builing
+     *
+     * @param name a {@link String} that is a name for this {@code Turtle}
+     *
      * @param xHome the intial x-coordinate for this {@code Turtle}
+     *
      * @param yHome the intial y-coordinate for this {@code Turtle}
-     * @param z     the z-plane for this {@code Turtle}
+     *
+     * @param z the z-plane for this {@code Turtle}
+     *
      * @throws NullPointerException if {@code model} is {@code null}
-     */
-    public Turtle(final Model model, final double xHome, final double yHome, final double z) {
-        this(model, model.name, xHome, yHome, z);
-    }
-
-    /**
-     * @param model a reference to the {@link Model} that this {@code Turtle} is
-     *              builing
-     * @param name  a {@link String} that is a name for this {@code Turtle}
-     * @param xHome the intial x-coordinate for this {@code Turtle}
-     * @param yHome the intial y-coordinate for this {@code Turtle}
-     * @param z     the z-plane for this {@code Turtle}
-     * @throws NullPointerException if {@code model} is {@code null}
+     *
      * @throws NullPointerException if {@code name} is {@code null}
      */
-    public Turtle(final Model model, final String name, final double xHome, final double yHome, final double z) {
-        if (null == model)
+    public Turtle3D(final Model model, final String name, final double xHome, final double yHome, final double zHome) {
+        if (model == null)
             throw new NullPointerException("Turtle's Model must not be null");
-        if (null == name)
+        if (name == null)
             throw new NullPointerException("Turtle's name must not be null");
 
         this.model = model;
         this.name = name;
+
         this.xHome = xHome;
         this.yHome = yHome;
-        this.z = z;
+        this.zHome = zHome;
 
         this.xPos = xHome;
         this.yPos = yHome;
-        this.heading = 0;
+        this.zPos = zHome;
+
+        /*
+         * Local Axis Initialization: H, U, and L define the turtle's local,
+         * right-handed coordinate frame. This orientation is independent of the
+         * turtle's starting position (x, y, z).
+         * * Convention:
+         * H (Heading) = (0, 0, 1) -> Forward along the global Z-axis
+         * U (Up) = (0, 1, 0) -> Up along the global Y-axis
+         * L (Left) = (1, 0, 0) -> Left along the global X-axis
+         * * Check: L must equal U x H to satisfy the Right-Hand Rule.
+         */
+        this.left = new Vector(1.0, 0.0, 0.0);
+        this.up = new Vector(0.0, 1.0, 0.0);
+        this.heading = new Vector(0.0, 0.0, 1.0);
+
         this.penDown = true;
         this.stepSize = 1;
     }
@@ -159,46 +189,50 @@ public class Turtle {
     }
 
     /**
-     * Get the current heading of this {@code Turtle}.
+     * Get the current z position of this {@code Turtle}.
      *
-     * @return the heading in degrees of this {@code Turtle}
+     * @return the z position of this {@code Turtle}
      */
-    public double getHeading() {
-        return this.heading;
+    public double getZPos() {
+        return zPos;
     }
 
-    /**
-     * Set the heading of this {@code Turtle}.
-     *
-     * @param heading new heading in degrees for this {@code Turtle}
-     */
-    public void setHeading(final double heading) {
-        this.heading = heading;
+    private static Vector rodriguesEquation(final Vector v, final Vector k, final double alpha) {
+        Vector vPrime = v * Math.cos(alpha) +
+                k.crossProduct(v) * Math.sin(alpha) +
+                k * k.dotProduct(v) * (1 - Math.cos(alpha));
+
+        return vPrime;
     }
 
-    /**
-     * Turn this {@code Turtle} 90 degrees clockwise.
-     */
-    public void right() {
-        turn(90);
+    public void yaw(final double alpha) {
+        // L' = L*cos(α) + (U x L)*sin(α) + U*(U•L)(1-cos(α))
+        // H' = H*cos(α) + (U x H)*sin(α) + U*(U•H)(1-cos(α))
+        Vector leftPrime = this.rodriguesEquation(this.left, this.up, alpha % 360);
+        Vector headingPrime = this.rodriguesEquation(this.heading, this.up, alpha % 360);
+
+        this.left = leftPrime;
+        this.heading = headingPrime;
     }
 
-    /**
-     * Turn this {@code Turtle} 90 degrees counterclockwise.
-     */
-    public void left() {
-        turn(-90);
+    public void pitch(final double alpha) {
+        // H' = H*cos(α) + (L x H)*sin(α) + L*(L•H)(1-cos(α))
+        // U' = U*cos(α) + (L x U)*sin(α) + L*(L•U)(1-cos(α))
+        Vector headingPrime = this.rodriguesEquation(this.heading, this.left, alpha % 360);
+        Vector upPrime = this.rodriguesEquation(this.up, this.left, alpha % 360);
+
+        this.heading = headingPrime;
+        this.up = upPrime;
     }
 
-    /**
-     * Turn this {@code Turtle} by the given angle in degrees.
-     * Use positive angles to turn clockwise and negative angles to turn
-     * counterclockwise.
-     *
-     * @param degrees the amount to turn this {@code Turtle} in degrees
-     */
-    public void turn(final double degrees) {
-        heading = (heading + degrees) % 360;
+    public void roll(final double alpha) {
+        // U' = U*cos(α) + (H x U)*sin(α) + H*(H•U)(1-cos(α))
+        // L' = L*cos(α) + (H x L)*sin(α) + H*(H•L)(1-cos(α))
+        Vector upPrime = this.rodriguesEquation(this.up, this.heading, alpha % 360);
+        Vector leftPrime = this.rodriguesEquation(this.left, this.heading, alpha % 360);
+
+        this.up = upPrime;
+        this.left = leftPrime;
     }
 
     /**
@@ -207,58 +241,69 @@ public class Turtle {
      * @param turtle the {@code Turtle} to turn towards
      */
     public void turnToFace(final Turtle turtle) {
-        turnToFace(turtle.xPos, turtle.yPos);
+        turnToFace(turtle.xPos, turtle.yPos, turtle.zPos);
     }
 
-    /**
-     * Turn this {@code Turtle} towards the given (x, y).
-     *
-     * @param x the x to turn this {@code Turtle} towards
-     * @param y the y to turn this {@code Turtle} towards
-     */
-    public void turnToFace(final double x, final double y) {
-        final double dx = x - xPos;
-        final double dy = y - yPos;
+    public void turnToFace(final double x, final double y, final double z) {
+        final Vector targetPoint = new Vector(x, y, z);
+        final Vector currentPos = new Vector(this.xPos, this.yPos, this.zPos);
 
-        if (0 == dx) // avoid a division by 0
-        {
-            if (dy > 0) // if below the turtle
-            {
-                heading = 180;
-            } else if (dy < 0) // if above the turtle
-            {
-                heading = 0;
-            }
-        } else // dx isn't 0 so can divide by it
-        {
-            final double arcTan = Math.toDegrees(Math.atan(dy / dx));
-            if (dx < 0) {
-                heading = arcTan - 90;
-            } else {
-                heading = arcTan + 90;
-            }
+        Vector direction = targetPoint.minus(currentPos);
+
+        // Avoid calculating rotation if the target is the turtle's current position.
+        if (direction.magnitude() < 1e-6) {
+            return;
         }
+
+        final Vector hPrime = direction.normalize();
+        final Vector rotationAxis = this.heading.crossProduct(hPrime).normalize();
+        double cosTheta = this.headingVector.dotProduct(hPrime);
+
+        cosTheta = Math.max(-1.0, Math.min(1.0, cosTheta));
+        final double angle = Math.acos(cosTheta);
+
+        // If the angle is very small, the vectors are already aligned, so skip rotation
+        if (angle < 1e-6) {
+            return;
+        }
+
+        // Apply the rotation to all three local vectors
+        final Vector3D newLeft = this.leftVector.rotate(angle, rotationAxis);
+        final Vector3D newUp = this.upVector.rotate(angle, rotationAxis);
+
+        this.headingVector = H_prime;
+        this.leftVector = newLeft.normalize(); // Re-normalize to fix floating point drift
+        this.upVector = newUp.normalize();
+
+        // Re-verify the Right-Hand Rule after the rotation to ensure consistency
+        this.left = this.up.crossProduct(this.heading).normalize();
     }
 
     /**
-     * Move this {@code Turtle} to the coordinates (0, 0) and give it the heading of
-     * 0 degrees.
+     * Move this {@code Turtle} to the coordinates (0, 0, 0) and give it the default
+     * heading
      */
     public void home() {
-        xPos = xHome;
-        yPos = yHome;
-        heading = 0;
+        this.xPos = xHome;
+        this.yPos = yHome;
+        this.zPos = zHome;
+
+        this.left = new Vector(1.0, 0.0, 0.0);
+        this.up = new Vector(0.0, 1.0, 0.0);
+        this.heading = new Vector(0.0, 0.0, 1.0);
     }
 
     /**
-     * Move this {@code Turtle} to the given (x, y) location.
+     * Move this {@code Turtle} to the given (x, y, z) location.
      *
      * @param x the x-coordinate to move this {@code Turtle} to
      * @param y the y-coordinate to move this {@code Turtle} to
+     * @param z the z-coordinate to move this {@code Turtle} to
      */
-    public void moveTo(final double x, final double y) {
-        xPos = x;
-        yPos = y;
+    public void moveTo(final double x, final double y, final double z) {
+        this.xPos = x;
+        this.yPos = y;
+        this.zPos = z;
     }
 
     /**
@@ -296,16 +341,18 @@ public class Turtle {
     public void forward(final double distance) {
         final double xOld = xPos;
         final double yOld = yPos;
+        final double zOld = zPos;
 
         // change the current position
-        xPos = xOld + (stepSize * distance * Math.sin(Math.toRadians(heading)));
-        yPos = yOld + (stepSize * distance * Math.cos(Math.toRadians(heading)));
+        this.xPos = xOld + (stepSize * distance * this.heading.x);
+        this.yPos = yOld + (stepSize * distance * this.heading.y);
+        this.zPos = zOld + (stepSize * distance * this.heading.z);
 
         if (penDown) {
             final int index = this.model.vertexList.size();
 
-            final Vertex oldVertex = new Vertex(xOld, yOld, z);
-            final Vertex newVertex = new Vertex(xPos, yPos, z);
+            final Vertex oldVertex = new Vertex(xOld, yOld, zOld);
+            final Vertex newVertex = new Vertex(xPos, yPos, zOld);
 
             this.model.addVertex(oldVertex, newVertex);
             this.model.addPrimitive(new LineSegment(index, index + 1));
@@ -325,9 +372,9 @@ public class Turtle {
      *                 heading direction
      */
     public void move(final double distance) {
-        // change the current position
-        xPos = xPos + (stepSize * distance * Math.sin(Math.toRadians(heading)));
-        yPos = yPos + (stepSize * distance * Math.cos(Math.toRadians(heading)));
+        this.xPos = xPos + (stepSize * distance * this.heading.x);
+        this.yPos = yPos + (stepSize * distance * this.heading.y);
+        this.zPos = zPos + (stepSize * distance * this.heading.z);
     }
 
     /**
@@ -349,10 +396,9 @@ public class Turtle {
     @Override
     public String toString() {
         String result = "";
-        result += "Turtle: " + name + "\n";
-        result += "z-plane: " + z + "\n";
-        result += "origin: (" + xPos + ", " + yPos + ")\n";
+        result += "Turtle: " + this.name + "\n";
+        result += "origin: (" + this.xPos + ", " + yPos + ", " + zPos + ")\n";
         result += model.toString() + "\n";
         return result;
     }
-}// Turtle
+}// Turtle3D
