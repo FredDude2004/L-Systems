@@ -16,12 +16,11 @@ public class Turtle
 {
    public final Model model;
    public final String name;
+   public final double z;
    public final double xHome;
    public final double yHome;
-   public final double zHome;
    private double xPos;
    private double yPos;
-   private double zPos;
    private double heading;
    private boolean penDown;
    private double stepSize;  // see the resize() method

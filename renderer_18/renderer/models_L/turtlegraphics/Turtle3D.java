@@ -88,16 +88,16 @@ public class Turtle3D {
     private double stepSize; // see the resize() method
 
     /*
-     * @param model a reference to the {@link Model} that this {@code Turtle} is
+     * @param model a reference to the {@link Model} that this {@code Turtle3D} is
      * builing
      *
-     * @param name a {@link String} that is a name for this {@code Turtle}
+     * @param name a {@link String} that is a name for this {@code Turtle3D}
      *
-     * @param xHome the intial x-coordinate for this {@code Turtle}
+     * @param xHome the intial x-coordinate for this {@code Turtle3D}
      *
-     * @param yHome the intial y-coordinate for this {@code Turtle}
+     * @param yHome the intial y-coordinate for this {@code Turtle3D}
      *
-     * @param z the z-plane for this {@code Turtle}
+     * @param z the z-plane for this {@code Turtle3D}
      *
      * @throws NullPointerException if {@code model} is {@code null}
      *
@@ -105,9 +105,9 @@ public class Turtle3D {
      */
     public Turtle3D(final Model model, final String name, final double xHome, final double yHome, final double zHome) {
         if (model == null)
-            throw new NullPointerException("Turtle's Model must not be null");
+            throw new NullPointerException("Turtle3D's Model must not be null");
         if (name == null)
-            throw new NullPointerException("Turtle's name must not be null");
+            throw new NullPointerException("Turtle3D's name must not be null");
 
         this.model = model;
         this.name = name;
@@ -139,7 +139,7 @@ public class Turtle3D {
     }
 
     /**
-     * Check if this {@code Turtle}'s pen is down.
+     * Check if this {@code Turtle3D}'s pen is down.
      *
      * @return true if down else false
      */
@@ -148,79 +148,86 @@ public class Turtle3D {
     }
 
     /**
-     * Set this {@code Turtle}'s penDown variable.
+     * Set this {@code Turtle3D}'s penDown variable.
      *
-     * @param value value for this {@code Turtle}'s penDown variable
+     * @param value value for this {@code Turtle3D}'s penDown variable
      */
     public void setPenDown(final boolean value) {
         penDown = value;
     }
 
     /**
-     * Set this {@code Turtle}'s pen down.
+     * Set this {@code Turtle3D}'s pen down.
      */
     public void penDown() {
         penDown = true;
     }
 
     /**
-     * Lift this {@code Turtle}'s pen up.
+     * Lift this {@code Turtle3D}'s pen up.
      */
     public void penUp() {
         penDown = false;
     }
 
     /**
-     * Get the current x position of this {@code Turtle}.
+     * Get the current x position of this {@code Turtle3D}.
      *
-     * @return the x position of this {@code Turtle}
+     * @return the x position of this {@code Turtle3D}
      */
     public double getXPos() {
-        return xPos;
+        return this.xPos;
     }
 
     /**
-     * Get the current y position of this {@code Turtle}.
+     * Get the current y position of this {@code Turtle3D}.
      *
-     * @return the y position of this {@code Turtle}
+     * @return the y position of this {@code Turtle3D}
      */
     public double getYPos() {
-        return yPos;
+        return this.yPos;
     }
 
     /**
-     * Get the current z position of this {@code Turtle}.
+     * Get the current z position of this {@code Turtle3D}.
      *
-     * @return the z position of this {@code Turtle}
+     * @return the z position of this {@code Turtle3D}
      */
     public double getZPos() {
-        return zPos;
+        return this.zPos;
     }
 
     /**
-     * Perform Rodrigues' Equation rotating {@link Vector} v around {@link Vector} k and returning the rotated vector
-     * @param v Vector that is to be rotated
-     * @param k Vector that is rotated about
+     * Perform Rodrigues' Equation rotating {@link Vector} v around {@link Vector} k
+     * and returning the rotated vector
+     *
+     * @param v     Vector that is to be rotated
+     * @param k     Vector that is rotated about
      * @param alpha the angle to rotate the vector v
      * @return vPrime the rotated {@link Vector}
      */
-    private static Vector rodriguesEquation(final Vector v, final Vector k, final double alpha) {
-        Vector vPrime = v * Math.cos(alpha) +
-                k.crossProduct(v) * Math.sin(alpha) +
-                k * k.dotProduct(v) * (1 - Math.cos(alpha));
+    private static Vector rodriguesEquation(final Vector v, final Vector k, final double alphaDegrees) {
+        final Vector k_unit = k.normalize();
+        final double alpha = Math.toRadians(alphaDegrees);
 
-        return vPrime;
+        // Rodrigues' Equation: v' = v*cos(α) + (k x v)*sin(α) + k*(k•v)(1-cos(α))
+        Vector term1 = v.times(Math.cos(alpha));
+        Vector term2 = (k_unit.crossProduct(v)).times(Math.sin(alpha));
+        Vector term3 = k_unit.times(k_unit.dotProduct(v)).times(1 - Math.cos(alpha));
+
+        return term1.plus(term2).plus(term3);
     }
 
     /**
      * turn the turtle's Yaw by angle alpha
+     *
      * @param alpha double of the rotation angle
      */
     public void yaw(final double alpha) {
         // L' = L*cos(α) + (U x L)*sin(α) + U*(U•L)(1-cos(α))
         // H' = H*cos(α) + (U x H)*sin(α) + U*(U•H)(1-cos(α))
-        Vector leftPrime = this.rodriguesEquation(this.left, this.up, alpha % 360);
-        Vector headingPrime = this.rodriguesEquation(this.heading, this.up, alpha % 360);
+        Vector leftPrime = Turtle3D.rodriguesEquation(this.left, this.up, alpha % 360);
+        Vector headingPrime = Turtle3D.rodriguesEquation(this.heading, this.up, alpha % 360);
 
         this.left = leftPrime;
         this.heading = headingPrime;
@@ -228,13 +235,14 @@ public class Turtle3D {
 
     /**
      * turn the turtle's Pitch by angle alpha
+     *
      * @param alpha double of the rotation angle
      */
     public void pitch(final double alpha) {
         // H' = H*cos(α) + (L x H)*sin(α) + L*(L•H)(1-cos(α))
         // U' = U*cos(α) + (L x U)*sin(α) + L*(L•U)(1-cos(α))
-        Vector headingPrime = this.rodriguesEquation(this.heading, this.left, alpha % 360);
-        Vector upPrime = this.rodriguesEquation(this.up, this.left, alpha % 360);
+        Vector headingPrime = Turtle3D.rodriguesEquation(this.heading, this.left, alpha % 360);
+        Vector upPrime = Turtle3D.rodriguesEquation(this.up, this.left, alpha % 360);
 
         this.heading = headingPrime;
         this.up = upPrime;
@@ -242,41 +250,51 @@ public class Turtle3D {
 
     /**
      * turn the turtle's Roll by angle alpha
+     *
      * @param alpha double of the rotation angle
      */
     public void roll(final double alpha) {
         // U' = U*cos(α) + (H x U)*sin(α) + H*(H•U)(1-cos(α))
         // L' = L*cos(α) + (H x L)*sin(α) + H*(H•L)(1-cos(α))
-        Vector upPrime = this.rodriguesEquation(this.up, this.heading, alpha % 360);
-        Vector leftPrime = this.rodriguesEquation(this.left, this.heading, alpha % 360);
+        Vector upPrime = Turtle3D.rodriguesEquation(this.up, this.heading, alpha % 360);
+        Vector leftPrime = Turtle3D.rodriguesEquation(this.left, this.heading, alpha % 360);
 
         this.up = upPrime;
         this.left = leftPrime;
     }
 
     /**
-     * Turn this {@code Turtle} to face another {@code Turtle}.
+     * calculate and return the magnitude of a given {@link Vector}
      *
-     * @param turtle the {@code Turtle} to turn towards
+     * @param v {@link Vector} to calculate the magnitude
      */
-    public void turnToFace(final Turtle turtle) {
-        turnToFace(turtle.xPos, turtle.yPos, turtle.zPos);
+    public static double magnitude(Vector v) {
+        return Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    }
+
+    /**
+     * Turn this {@code Turtle3D} to face another {@code Turtle3D}.
+     *
+     * @param turtle the {@code Turtle3D} to turn towards
+     */
+    public void turnToFace(final Turtle3D turtle) {
+        turnToFace(turtle.getXPos(), turtle.getYPos(), turtle.getZPos());
     }
 
     public void turnToFace(final double x, final double y, final double z) {
         final Vector targetPoint = new Vector(x, y, z);
-        final Vector currentPos = new Vector(this.xPos, this.yPos, this.zPos);
+        final Vector currentPos = new Vector(this.getXPos(), this.getYPos(), this.getZPos());
 
         Vector direction = targetPoint.minus(currentPos);
 
         // Avoid calculating rotation if the target is the turtle's current position.
-        if (direction.magnitude() < 1e-6) {
+        if (Turtle3D.magnitude(direction) < 1e-6) {
             return;
         }
 
         final Vector hPrime = direction.normalize();
         final Vector rotationAxis = this.heading.crossProduct(hPrime).normalize();
-        double cosTheta = this.headingVector.dotProduct(hPrime);
+        double cosTheta = this.heading.dotProduct(hPrime);
 
         cosTheta = Math.max(-1.0, Math.min(1.0, cosTheta));
         final double angle = Math.acos(cosTheta);
@@ -287,19 +305,19 @@ public class Turtle3D {
         }
 
         // Apply the rotation to all three local vectors
-        final Vector3D newLeft = this.leftVector.rotate(angle, rotationAxis);
-        final Vector3D newUp = this.upVector.rotate(angle, rotationAxis);
+        final Vector newLeft = Turtle3D.rodriguesEquation(this.left, rotationAxis, angle);
+        final Vector newUp = Turtle3D.rodriguesEquation(this.up, rotationAxis, angle);
 
-        this.headingVector = H_prime;
-        this.leftVector = newLeft.normalize(); // Re-normalize to fix floating point drift
-        this.upVector = newUp.normalize();
+        this.heading = hPrime;
+        this.left = newLeft.normalize(); // Re-normalize to fix floating point drift
+        this.up = newUp.normalize();
 
         // Re-verify the Right-Hand Rule after the rotation to ensure consistency
         this.left = this.up.crossProduct(this.heading).normalize();
     }
 
     /**
-     * Move this {@code Turtle} to the coordinates (0, 0, 0) and give it the default
+     * Move this {@code Turtle3D} to the coordinates (0, 0, 0) and give it the default
      * heading
      */
     public void home() {
@@ -313,11 +331,11 @@ public class Turtle3D {
     }
 
     /**
-     * Move this {@code Turtle} to the given (x, y, z) location.
+     * Move this {@code Turtle3D} to the given (x, y, z) location.
      *
-     * @param x the x-coordinate to move this {@code Turtle} to
-     * @param y the y-coordinate to move this {@code Turtle} to
-     * @param z the z-coordinate to move this {@code Turtle} to
+     * @param x the x-coordinate to move this {@code Turtle3D} to
+     * @param y the y-coordinate to move this {@code Turtle3D} to
+     * @param z the z-coordinate to move this {@code Turtle3D} to
      */
     public void moveTo(final double x, final double y, final double z) {
         this.xPos = x;
@@ -326,35 +344,35 @@ public class Turtle3D {
     }
 
     /**
-     * Move this {@code Turtle} foward one unit in the heading direction.
+     * Move this {@code Turtle3D} foward one unit in the heading direction.
      */
     public void forward() {
         forward(1);
     }
 
     /**
-     * Move this {@code Turtle} backward one unit.
+     * Move this {@code Turtle3D} backward one unit.
      */
     public void backward() {
         backward(1);
     }
 
     /**
-     * Move this {@code Turtle} backward the given number of units.
+     * Move this {@code Turtle3D} backward the given number of units.
      *
-     * @param distance the distance to walk this {@code Turtle} backward
+     * @param distance the distance to walk this {@code Turtle3D} backward
      */
     public void backward(final double distance) {
         forward(-distance);
     }
 
     /**
-     * Move this {@code Turtle} forward the given number of units
+     * Move this {@code Turtle3D} forward the given number of units
      * in the heading direction. If the pen is down, then add two
      * {@link Vertex} objects and a {@link LineSegment} object to
-     * the underlying {@code Turtle}.
+     * the underlying {@code Turtle3D}.
      *
-     * @param distance the distance to walk this {@code Turtle} forward in the
+     * @param distance the distance to walk this {@code Turtle3D} forward in the
      *                 heading direction
      */
     public void forward(final double distance) {
@@ -368,6 +386,7 @@ public class Turtle3D {
         this.zPos = zOld + (stepSize * distance * this.heading.z);
 
         if (penDown) {
+            System.out.println("I'm Here!");
             final int index = this.model.vertexList.size();
 
             final Vertex oldVertex = new Vertex(xOld, yOld, zOld);
@@ -387,7 +406,7 @@ public class Turtle3D {
      * https://people.engr.tamu.edu/schaefer/research/TurtlesforCADRevised.pdf
      * https://www.routledge.com/An-Integrated-Introduction-to-Computer-Graphics-and-Geometric-Modeling/Goldman/p/book/9781138381476
      *
-     * @param distance the distance to walk this {@code Turtle} forward in the
+     * @param distance the distance to walk this {@code Turtle3D} forward in the
      *                 heading direction
      */
     public void move(final double distance) {
@@ -410,12 +429,12 @@ public class Turtle3D {
     /**
      * For debugging.
      *
-     * @return {@link String} representation of this {@code Turtle} object
+     * @return {@link String} representation of this {@code Turtle3D} object
      */
     @Override
     public String toString() {
         String result = "";
-        result += "Turtle: " + this.name + "\n";
+        result += "Turtle3D: " + this.name + "\n";
         result += "origin: (" + this.xPos + ", " + yPos + ", " + zPos + ")\n";
         result += model.toString() + "\n";
         return result;
