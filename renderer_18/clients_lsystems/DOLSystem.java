@@ -38,6 +38,7 @@ public class DOLSystem {
         lSystem.addProduction(productionOne);
 
         lSystem.expand(2);
+       // lSystem.expand(1);
         Model lSystemModel = lSystem.draw();
 
         ModelShading.setColor(lSystemModel, Color.white);
