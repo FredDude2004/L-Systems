@@ -19,13 +19,13 @@ import renderer.pipeline.*;
 import renderer.models_L.lsystems.*;
 import renderer.models_L.lsystems.Production;
 import renderer.scene.util.ModelShading;
+import renderer.scene.util.Vector3D;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Example1 {
     public static void main(String[] args) {
+        // --- Scene / framebuffer ---
         final Scene scene = new Scene("TurtleGraphics");
         scene.addPosition(new Position(new Model(), "p0"));
 
@@ -33,17 +33,41 @@ public class Example1 {
         final int height = 1024;
         final FrameBuffer fb = new FrameBuffer(width, height, Color.black);
 
-        LSystem lSystem = new LSystem("F", 0.5, 22.5);
-        Production p1 = new Production('F', "FF+[+F-F-F]-[-F+F+F]");
-        lSystem.addProduction(p1);
+        // --- L-system definition (axiom, step length, angleDeg) ---
+        // step length ~0.28-0.35 works well at 1024x1024
+        final double step = 0.30;
+        final double angleDeg = 22.5;
 
-        lSystem.expand(3);
-        Model lSystemModel = lSystem.draw();
+        LSystem lsys = new LSystem("F", step, angleDeg);
 
-        ModelShading.setColor(lSystemModel, Color.white);
-        scene.getPosition(0).setModel(lSystemModel);
+        // F -> FF+[+F-F-F]-[-F+F+F]
+        lsys.addProduction(new Production('F', "FF+[+F-F-F]-[-F+F+F]"));
+
+        // IMPORTANT: tell the interpreter what each symbol means
+        // (Without this, '[' and ']' are ignored -> the "skinny vine" you saw.)
+        lsys.setForward('F');     // draw forward
+        lsys.setTurnLeft('+');    // +angle
+        lsys.setTurnRight('-');   // -angle
+        lsys.setPush('[');        // push state
+        lsys.setPop(']');         // pop state
+
+        // Expand enough times to get the dense bushy look
+        lsys.expand(5);
+
+        // Draw to a 2D model using the turtle interpreter
+        Model model = lsys.draw();
+
+        // Aesthetics
+        ModelShading.setColor(model, new Color(220, 220, 220));
+        scene.getPosition(0).setModel(model);
+
+        // Optional: nudge into frame if your origin differs
+        scene.getPosition(0).setTranslation(new Vector3D(-0.5, -1.0, 0));
+
+        // Render
         fb.clearFB();
         Pipeline.render(scene, fb);
         fb.dumpFB2File("Example1.ppm");
+        System.out.println("Wrote Example1.ppm");
     }
 }

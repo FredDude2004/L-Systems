@@ -68,21 +68,28 @@ public class LSystem {
 
       @param iterations   the amount of expansions that will happen to the lSystem
     */
-    public void expand(int iterations) {
-        String newStr = "";
-
-        for (int i = 0; i < iterations; ++i) {
-            for (int j = 0; j < this.axiom.length(); ++j) {
-                if (this.productions.containsKey(axiom.charAt(j))) {
-                    newStr += this.productions.get(axiom.charAt(j));
-                } else {
-                    newStr += axiom.charAt(j);
-                }
+    public void expand(int iterations) 
+    {
+       //String newStr = "";  // reset each iteration
+       for (int i = 0; i < iterations; ++i) 
+       {
+        String newStr = "";  // reset each iteration
+        for (int j = 0; j < axiom.length(); ++j) 
+        {
+            char c = axiom.charAt(j);
+            if (productions.containsKey(c)) 
+            {
+                newStr += productions.get(c);  // replace F (or any matching char)
+            } 
+            else 
+            {
+                newStr += c;  // keep +, -, etc.
             }
-            System.out.println("Iteration: " + i + " newStr: " + newStr);
-            this.axiom = newStr;
         }
+        axiom = newStr;  // update the axiom for the next iteration
+        System.out.println("Iteration " + (i + 1) + " length: " + axiom.length());
     }
+}
 
     /**
       Draws the current l-system to a Model and returns it
