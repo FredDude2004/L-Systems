@@ -24,12 +24,12 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DOLSystem{
+public class DOLSystem {
     public static void main(String[] args) {
         final Scene scene = new Scene("TurtleGraphics");
         scene.addPosition(new Position(new Model(), "p0"));
 
-        final int width  = 1024;
+        final int width = 1024;
         final int height = 1024;
         final FrameBuffer fb = new FrameBuffer(width, height, Color.black);
 

@@ -76,4 +76,4 @@ DOL Systems (Deterministic Context-Free L-Systems) are a specific type of L-Syst
 where each symbol in the alphabet has exactly one production rule associated
 with it.
 
-![DOL_System](assets/DOL_System.png)
+![DOL_System](assets/DOL_System.p)
