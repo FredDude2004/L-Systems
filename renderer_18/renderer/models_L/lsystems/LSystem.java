@@ -103,26 +103,21 @@ public class LSystem {
 
       @param iterations  the amount of expansions that will happen to the lSystem
     */
-    public void expand(int iterations) 
-    {
-       for (int i = 0; i < iterations; ++i) 
-       {
+    public void expand(int iterations) {
+       for (int i = 0; i < iterations; ++i) {
         String newStr = "";  // reset each iteration
          
-        for (int j = 0; j < axiom.length(); ++j) 
-        {
+        for (int j = 0; j < axiom.length(); ++j) {
             char c = axiom.charAt(j);
-            if (productions.containsKey(c)) 
-            {
+            if (productions.containsKey(c)) {
                 newStr += productions.get(c);  // replace F (or any matching char)
-            } 
-            else 
-            {
+            } else {
                 newStr += c;  // keep +, -, etc.
             }
         }
          
         this.axiom = newStr;  // update the axiom for the next iteration
+      }
     }
 
     /**
