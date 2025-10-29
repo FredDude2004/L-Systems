@@ -122,52 +122,76 @@ public class LSystem {
     }
 
     /**
-      Draws the current l-system to a Model and returns it
+        Draws the {@code LSystem} according to these rules:
+
+        F Move foreward and draw a line.
+        f Move foreward without drawing a line
+        + Turn left.
+        - Turn right.
+        ^ Pitch up.
+        & Pitch down.
+        \ Roll left.
+        / Roll right.
+        | Turn around.
+        $ Rotate the turtle to vertical.
+        [ Start a branch.
+        ] Complete a branch.
+        { Start a polygon.
+        G Move foreward and draw a line. Do not record a vertex.
+        . Record a vertex in the current polygon.
+        } Complete a polygon.
+        ~ Incorporate a predefined surface.
+        ! Decrement the diameter of segments.
+        ` Increment the current color index.
+        % Cut off the remainder of the branch.
+
+        Returns a {@link Model}
     */
     public Model draw() {
         Model lSystem = new Model("lSystem");
         Turtle turtle = new Turtle(lSystem,  this.xHome, this.yHome, -25.0);
-        Stack<Coordinate> branchStack = new Stack<>();
+        Stack<TurtleState> branchStack = new Stack<>();
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch(axiom.charAt(i)) {
-                case 'F':                                   // move foreward by this.stepSize
+                case 'F':
                     turtle.forward(this.stepSize);
                     break;
-                case 'f':                                   // move forward without drawing a line
+                case 'f':
                     turtle.penUp();
                     turtle.forward(this.stepSize);
                     turtle.penDown();
                     break;
-                case '+':                                   // turn the turtle in the positive direction (counter-clokwise)
+                case '+':
                     turtle.turn(-this.delta);
                     break;
-                case '-':                                   // turn the turtle in the negative direction (clockwise)
+                case '-':
                     turtle.turn(this.delta);
                     break;
-                case '^':                                   // pitch up
+                case '^':
                     break;
-                case '&':                                   // pitch down
+                case '&':
                     break;
-                case '\\':                                  // roll left
+                case '\\':
                     break;
-                case '/':                                   // roll right
+                case '/':
                     break;
-                case '|':                                   // turn around
+                case '|':
                     turtle.turn(180.0);
                     break;
-                case '$':                                   // Rotate the turtle to vertical
+                case '$':
                     turtle.setHeading(0.0);
                     break;
-                case '[':                                   // start a branch
+                case '[':
                     double startBranchX = turtle.getXPos();
                     double startBranchY = turtle.getYPos();
-                    branchStack.push(new Coordinate(startBranchX, startBranchY));
+                    branchStack.push(new TurtleState(startBranchX, startBranchY, -25.0, turtle.getHeading()));
                     break;
-                case ']':                                   // move turtle back to start of branch
+                case ']':
                     turtle.penUp();
-                    Coordinate startOfBranch = branchStack.pop();
+                    TurtleState startOfBranch = branchStack.pop();
                     turtle.moveTo(startOfBranch.getX(), startOfBranch.getY());
+                    turtle.setHeading(startOfBranch.getHeading());
                     turtle.penDown();
                     break;
                 case '{':
@@ -178,13 +202,13 @@ public class LSystem {
                     break;
                 case '}':
                     break;
-                case '~':                                   // encorporate a predefined surface
+                case '~':
                     break;
-                case '!':                                   // decrement the diameter of a segment
+                case '!':
                     break;
-                case '`':                                   // increment the current color index
+                case '`':
                     break;
-                case '%':                                   // cut off the remainder of the branch
+                case '%':
                     break;
                 default:
                     break;

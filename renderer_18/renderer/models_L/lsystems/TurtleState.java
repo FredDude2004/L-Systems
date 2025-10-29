@@ -1,20 +1,24 @@
-public class Coordinate {
+package renderer.models_L.lsystems;
+
+public class TurtleState {
     private double x;
     private double y;
     private double z;
+    private double heading;
 
-    public Coordinate() {
-        Coordinate(0, 0, 0);
+    public TurtleState() {
+        this(0, 0, 0, 0);
     }
 
-    public Coordinate(final double x, final double y) {
-        Coordinate(x, y, 0);
+    public TurtleState(final double x, final double y) {
+        this(x, y, 0, 0);
     }
 
-    public Coordinate(final double x, final double y, final double z) {
+    public TurtleState(final double x, final double y, final double z, final double heading) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.heading = heading;
     }
 
     public double getX() {
@@ -27,6 +31,10 @@ public class Coordinate {
 
     public double getZ() {
         return this.z;
+    }
+
+    public double getHeading() {
+        return this.heading;
     }
 
     @Override
