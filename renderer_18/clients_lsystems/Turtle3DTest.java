@@ -17,7 +17,7 @@ public class Turtle3DTest {
         final FrameBuffer fb = new FrameBuffer(width, height, Color.white);
 
         final Model turtleModel = new Model("turtleModel");
-        final Turtle3D turtle = new Turtle3D(turtleModel, "turtleModel", -0.5, 0.0, -10.0);
+        final Turtle3D turtle = new Turtle3D(turtleModel, "turtleModel", -0.5, -0.5, -1.0);
 
         turtle.forward();
         turtle.yaw(90.0);
