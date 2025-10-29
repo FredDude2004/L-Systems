@@ -10,6 +10,7 @@ import renderer.pipeline.*;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class LSystem {
     private String axiom;
@@ -106,7 +107,7 @@ public class LSystem {
     public void expand(int iterations) {
        for (int i = 0; i < iterations; ++i) {
         String newStr = "";  // reset each iteration
-         
+
         for (int j = 0; j < axiom.length(); ++j) {
             char c = axiom.charAt(j);
             if (productions.containsKey(c)) {
@@ -115,7 +116,7 @@ public class LSystem {
                 newStr += c;  // keep +, -, etc.
             }
         }
-         
+
         this.axiom = newStr;  // update the axiom for the next iteration
       }
     }
@@ -126,8 +127,7 @@ public class LSystem {
     public Model draw() {
         Model lSystem = new Model("lSystem");
         Turtle turtle = new Turtle(lSystem,  this.xHome, this.yHome, -25.0);
-        double startBranchX = 0.0;
-        double startBranchY = 0.0;
+        Stack<Coordinate> branchStack = new Stack<>();
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch(axiom.charAt(i)) {
@@ -160,12 +160,14 @@ public class LSystem {
                     turtle.setHeading(0.0);
                     break;
                 case '[':                                   // start a branch
-                    startBranchX = turtle.getXPos();
-                    startBranchY = turtle.getYPos();
+                    double startBranchX = turtle.getXPos();
+                    double startBranchY = turtle.getYPos();
+                    branchStack.push(new Coordinate(startBranchX, startBranchY));
                     break;
                 case ']':                                   // move turtle back to start of branch
                     turtle.penUp();
-                    turtle.moveTo(startBranchX, startBranchY);
+                    Coordinate startOfBranch = branchStack.pop();
+                    turtle.moveTo(startOfBranch.getX(), startOfBranch.getY());
                     turtle.penDown();
                     break;
                 case '{':
