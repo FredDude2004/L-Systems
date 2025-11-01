@@ -27,8 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-
-public class DOL_System{
+public class DOL_System {
     private static final Logger logger = Logger.getLogger(DOL_System.class.getName());
 
     public static void initLogger() {
@@ -68,7 +67,6 @@ public class DOL_System{
 
         axiom = newStr;
     }
-
 
     public static void main(String[] args) {
         final Scene scene = new Scene("TurtleGraphics");
@@ -111,5 +109,6 @@ public class DOL_System{
         fb.clearFB();
         Pipeline.render(scene, fb);
         fb.dumpFB2File("DOL_System.png", "png");
+        double superLongVarName = 1.0;
     }
 }

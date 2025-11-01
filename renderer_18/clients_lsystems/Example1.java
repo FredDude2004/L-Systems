@@ -12,7 +12,6 @@
  *        + represents a turn in the positive direction by the angle delta
  *        - represent a turn in the negative direction by the angle delta
 */
-
 import renderer.scene.*;
 import renderer.framebuffer.*;
 import renderer.pipeline.*;
@@ -29,7 +28,7 @@ public class Example1 {
         final Scene scene = new Scene("TurtleGraphics");
         scene.addPosition(new Position(new Model(), "p0"));
 
-        final int width  = 1024;
+        final int width = 1024;
         final int height = 1024;
         final FrameBuffer fb = new FrameBuffer(width, height, Color.black);
 
