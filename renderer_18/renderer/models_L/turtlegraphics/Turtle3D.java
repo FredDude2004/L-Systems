@@ -130,9 +130,9 @@ public class Turtle3D {
          * L (Left) = (1, 0, 0) -> Left along the global X-axis
          * * Check: L must equal U x H to satisfy the Right-Hand Rule.
          */
+        this.heading = new Vector(0.0, 0.0, -1.0);
         this.left = new Vector(1.0, 0.0, 0.0);
         this.up = new Vector(0.0, 1.0, 0.0);
-        this.heading = new Vector(0.0, 0.0, 1.0);
 
         this.penDown = true;
         this.stepSize = 1;
@@ -376,9 +376,9 @@ public class Turtle3D {
      *                 heading direction
      */
     public void forward(final double distance) {
-        final double xOld = xPos;
-        final double yOld = yPos;
-        final double zOld = zPos;
+        final double xOld = this.xPos;
+        final double yOld = this.yPos;
+        final double zOld = this.zPos;
 
         // change the current position
         this.xPos = xOld + (stepSize * distance * this.heading.x);
@@ -390,7 +390,7 @@ public class Turtle3D {
             final int index = this.model.vertexList.size();
 
             final Vertex oldVertex = new Vertex(xOld, yOld, zOld);
-            final Vertex newVertex = new Vertex(xPos, yPos, zOld);
+            final Vertex newVertex = new Vertex(xPos, yPos, zPos);
 
             this.model.addVertex(oldVertex, newVertex);
             this.model.addPrimitive(new LineSegment(index, index + 1));
