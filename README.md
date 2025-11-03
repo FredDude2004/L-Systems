@@ -12,6 +12,7 @@ model to be able to render them 3 dimansionally.
 - [The Algorithmic Beauty of Plants](https://algorithmicbotany.org/papers/abop/abop.pdf)
 - [L Systems : Creating Plants from Simple Rules - Computerphile](https://youtu.be/puwhf-404Xc?si=Pz6ax7lGY5Fyilyy)
 - [Examples of L-Systems](https://paulbourke.net/fractals/lsys/)
+- [Drawing plants with L-Systems in Java](https://youtu.be/1AB3N3nrVwQ?si=FdnQ6JQU0wJxNOvy)
 
 ```Turtle interpretation of symbols
 F Move foreward and draw a line.
