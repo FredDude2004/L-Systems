@@ -1,6 +1,0 @@
-INDEX VERSION 1.134+/home/fred/Desktop/projects/L-Systems/.metadata/.plugins/org.eclipse.jdt.core
-3335510932.index
-3842426239.index
-1865797976.index
-3018271341.index
-1597067313.index
