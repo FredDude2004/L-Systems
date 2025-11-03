@@ -97,6 +97,8 @@ public class Turtle3D {
      *
      * @param yHome the intial y-coordinate for this {@code Turtle3D}
      *
+     * @param zHome the intial z-coordinate for this {@code Turtle3D}
+     * 
      * @param z the z-plane for this {@code Turtle3D}
      *
      * @throws NullPointerException if {@code model} is {@code null}
@@ -195,6 +197,36 @@ public class Turtle3D {
      */
     public double getZPos() {
         return this.zPos;
+    }
+
+    public Vector getLeft() {
+        return this.left;
+    }
+
+    public Vector getHeading() {
+        return this.heading;
+    }
+
+    public Vector getUp() {
+        return this.up;
+    }
+
+    public void setLeft(Vector left) {
+        this.left = left;
+    }
+
+    public void setHeading(Vector heading) {
+        this.heading = heading;
+    }
+
+    public void setUp(Vector up) {
+        this.up = up;
+    }
+
+    public void resetAxes() {
+        this.heading = new Vector(0.0, 0.0, -1.0);
+        this.left = new Vector(1.0, 0.0, 0.0);
+        this.up = new Vector(0.0, 1.0, 0.0);
     }
 
     /**
@@ -356,6 +388,7 @@ public class Turtle3D {
     public void backward() {
         backward(1);
     }
+
 
     /**
      * Move this {@code Turtle3D} backward the given number of units.
