@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Example1 {
+public class TreeSystem {
     public static void main(String[] args) {
         final Scene scene = new Scene("TurtleGraphics");
         scene.addPosition(new Position(new Model(), "p0"));
@@ -43,6 +43,6 @@ public class Example1 {
         scene.getPosition(0).setModel(lSystemModel);
         fb.clearFB();
         Pipeline.render(scene, fb);
-        fb.dumpFB2File("Example1.ppm");
+        fb.dumpFB2File("TreeSystem.ppm");
     }
 }

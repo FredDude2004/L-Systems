@@ -14,7 +14,13 @@ public class HilbertCurve3D
 {
     public static void main(String[] args) 
     {
-        final Scene scene = new Scene("HilbertCurve");
+        final double fov = 35.0;
+        final double aspect = 1.0;
+        final Camera camera = Camera.projPerspective(fov, aspect);
+        final Scene scene = new Scene("HilbertCurve", camera);
+        scene.camera.viewTranslate(3, 0, 30);
+//        scene.camera.viewRotate(45, 0, 1, 0);
+
         scene.addPosition(new Position(new Model(), "p0"));
 
         final int width  = 1024;

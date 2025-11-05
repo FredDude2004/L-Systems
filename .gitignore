@@ -30,3 +30,47 @@ jdt.ls-java-project
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# === Java ===
+*.class
+*.log
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# === Build directories ===
+bin/
+build/
+out/
+target/
+
+# === Eclipse ===
+.classpath
+.project
+.settings/
+.metadata/
+jdt.ls-java-project/
+
+# === VS Code ===
+.vscode/
+.factorypath/
+
+# === IntelliJ IDEA (if used) ===
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+
+# Eclipse/Java IDE stuff
+**/.classpath
+**/.project
+**/.settings/
+**/.metadata/
+**/jdt.ls-java-project/

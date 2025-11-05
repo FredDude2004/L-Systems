@@ -98,8 +98,6 @@ public class Turtle3D {
      * @param yHome the intial y-coordinate for this {@code Turtle3D}
      *
      * @param zHome the intial z-coordinate for this {@code Turtle3D}
-     * 
-     * @param z the z-plane for this {@code Turtle3D}
      *
      * @throws NullPointerException if {@code model} is {@code null}
      *
