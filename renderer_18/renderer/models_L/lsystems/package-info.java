@@ -1,7 +1,7 @@
 
 /*
  * Renderer Models. The MIT License.
- * Copyright (c) 2025 kduchesn@pnw.edu 
+ * Copyright (c) 2025 kduchesn@pnw.edu
  * See LICENSE for details.
 */
 
