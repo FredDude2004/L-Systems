@@ -1,14 +1,14 @@
-
-import renderer.scene.*;
-import renderer.framebuffer.*;
-import renderer.pipeline.*;
-import renderer.models_L.lsystems.*;
+import renderer.framebuffer.FrameBuffer;
+import renderer.models_L.lsystems.LSystem3D;
 import renderer.models_L.lsystems.Production;
+import renderer.pipeline.Pipeline;
+import renderer.scene.Camera;
+import renderer.scene.Model;
+import renderer.scene.Position;
+import renderer.scene.Scene;
 import renderer.scene.util.ModelShading;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class HilbertCurve3D 
 {

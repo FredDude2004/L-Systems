@@ -1,11 +1,13 @@
-import renderer.scene.*;
+import renderer.framebuffer.FrameBuffer;
+import renderer.models_L.turtlegraphics.Turtle3D;
+import renderer.pipeline.Pipeline;
+import renderer.scene.Camera;
+import renderer.scene.Model;
+import renderer.scene.Position;
+import renderer.scene.Scene;
 import renderer.scene.util.ModelShading;
-import renderer.models_L.turtlegraphics.*;
-import renderer.pipeline.*;
-import renderer.framebuffer.*;
 
 import java.awt.Color;
-import java.io.IOException;
 
 public class Tetrahedron3D {
     public static void main(String[] args) {

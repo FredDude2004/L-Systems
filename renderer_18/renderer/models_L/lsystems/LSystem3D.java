@@ -1,49 +1,45 @@
 package renderer.models_L.lsystems;
 
-import renderer.models_L.lsystems.*;
-import renderer.models_L.turtlegraphics.*;
-import renderer.scene.util.ModelShading;
-import renderer.framebuffer.*;
-import renderer.scene.*;
-import renderer.pipeline.*;
+import renderer.models_L.turtlegraphics.Turtle3D;
+import renderer.models_L.turtlegraphics.TurtleState3D;
+import renderer.scene.Model;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class LSystem3D {
     private String axiom;
-    private double stepSize;
-    private double delta;
+    private final double stepSize;
+    private final double delta;
     private double xHome;
     private double yHome;
     private double zHome;
-    private HashMap<Character, String> productions = new HashMap<>();
+    private final HashMap<Character, String> productions = new HashMap<>();
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
-      @param stepSize    the distnace the turtle will walk with each step foreward
+      @param stepSize    the distance the turtle will walk with each step forward
       @param delta       the angle that the turtle will turn, pitch or roll
     */
     public LSystem3D(final String axiom, final double stepSize, final double delta) {
-        this(axiom, stepSize, delta, 0.0, 0.0, 0.0, new ArrayList<Production>());
+        this(axiom, stepSize, delta, 0.0, 0.0, 0.0, new ArrayList<>());
     }
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
-      @param stepSize    the distnace the turtle will walk with each step foreward
+      @param stepSize    the distance the turtle will walk with each step forward
       @param delta       the angle that the turtle will turn, pitch or roll
       @param xHome       the X coordinate of the L-Systems Turtle
-      @param YHome       the Y coordinate of the L-Systems Turtle
+      @param yHome       the Y coordinate of the L-Systems Turtle
     */
     public LSystem3D(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome) {
-        this(axiom, stepSize, delta, xHome, yHome, 0.0, new ArrayList<Production>());
+        this(axiom, stepSize, delta, xHome, yHome, 0.0, new ArrayList<>());
     }
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
-      @param stepSize    the distnace the turtle will walk with each step foreward
+      @param stepSize    the distance the turtle will walk with each step forward
       @param delta       the angle that the turtle will turn, pitch or roll
       @param xHome       the X coordinate of the L-Systems Turtle
       @param yHome       the Y coordinate of the L-Systems Turtle
@@ -83,6 +79,15 @@ public class LSystem3D {
     }
 
     /**
+     Change the starting Z of the Turtle
+
+     @param newZHome  a double that sets the Z corrdinate
+     */
+    public final void setZHome(final double newZHome) {
+        this.zHome = newZHome;
+    }
+
+    /**
       Add a {@link Production} to this {@code LSystem3D}
 
       @param pArray  array of {@link Production} objects to add to this {@code LSystem3D}
@@ -110,26 +115,26 @@ public class LSystem3D {
     */
     public void expand(int iterations) {
        for (int i = 0; i < iterations; ++i) {
-        String newStr = "";  // reset each iteration
+        StringBuilder newStr = new StringBuilder();  // reset each iteration
 
         for (int j = 0; j < axiom.length(); ++j) {
             char c = axiom.charAt(j);
             if (productions.containsKey(c)) {
-                newStr += productions.get(c);  // replace F (or any matching char)
+                newStr.append(productions.get(c));  // replace F (or any matching char)
             } else {
-                newStr += c;  // keep +, -, etc.
+                newStr.append(c);  // keep +, -, etc.
             }
         }
 
-        this.axiom = newStr;  // update the axiom for the next iteration
+        this.axiom = newStr.toString();  // update the axiom for the next iteration
       }
     }
 
     /**
         Draws the {@code LSystem3D} according to these rules:
 
-        F Move foreward and draw a line.
-        f Move foreward without drawing a line
+        F Move forward and draw a line.
+        f Move forward without drawing a line
         + Turn left.
         - Turn right.
         ^ Pitch up.
@@ -141,7 +146,7 @@ public class LSystem3D {
         [ Start a branch.
         ] Complete a branch.
         { Start a polygon.
-        G Move foreward and draw a line. Do not record a vertex.
+        G Move forward and draw a line. Do not record a vertex.
         . Record a vertex in the current polygon.
         } Complete a polygon.
         ~ Incorporate a predefined surface.

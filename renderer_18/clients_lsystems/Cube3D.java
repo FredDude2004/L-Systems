@@ -1,11 +1,11 @@
-import renderer.scene.*;
+import renderer.framebuffer.FrameBuffer;
+import renderer.scene.Model;
+import renderer.scene.Position;
+import renderer.scene.Scene;
 import renderer.scene.util.ModelShading;
-import renderer.models_L.turtlegraphics.*;
-import renderer.pipeline.*;
-import renderer.framebuffer.*;
+import renderer.models_L.turtlegraphics.Turtle3D;
 
 import java.awt.Color;
-import java.io.IOException;
 
 public class Cube3D {
     public static void main(String[] args) {
