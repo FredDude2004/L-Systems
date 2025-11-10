@@ -1,20 +1,20 @@
 package renderer.models_L.lsystems;
 
-public class TurtleState {
+public class TurtleState2D {
     private double x;
     private double y;
     private double z;
     private double heading;
 
-    public TurtleState() {
+    public TurtleState2D() {
         this(0, 0, 0, 0);
     }
 
-    public TurtleState(final double x, final double y) {
+    public TurtleState2D(final double x, final double y) {
         this(x, y, 0, 0);
     }
 
-    public TurtleState(final double x, final double y, final double z, final double heading) {
+    public TurtleState2D(final double x, final double y, final double z, final double heading) {
         this.x = x;
         this.y = y;
         this.z = z;

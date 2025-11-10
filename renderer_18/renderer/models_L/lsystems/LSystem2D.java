@@ -1,18 +1,13 @@
 package renderer.models_L.lsystems;
 
-import renderer.models_L.lsystems.*;
 import renderer.models_L.turtlegraphics.*;
-import renderer.scene.util.ModelShading;
-import renderer.framebuffer.*;
 import renderer.scene.*;
-import renderer.pipeline.*;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class LSystem {
+public class LSystem2D {
     private String axiom;
     private double stepSize;
     private double delta;
@@ -25,7 +20,7 @@ public class LSystem {
       @param stepSize    the distnace the turtle will walk with each step foreward
       @param delta       the angle that the turtle will turn, pitch or roll
     */
-    public LSystem(final String axiom, final double stepSize, final double delta) {
+    public LSystem2D(final String axiom, final double stepSize, final double delta) {
         this(axiom, stepSize, delta, 0.0, 0.0, new ArrayList<Production>());
     }
 
@@ -36,7 +31,7 @@ public class LSystem {
       @param xHome       the X coordinate of the L-Systems Turtle
       @param YHome       the Y coordinate of the L-Systems Turtle
     */
-    public LSystem(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome) {
+    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome) {
         this(axiom, stepSize, delta, xHome, yHome, new ArrayList<Production>());
     }
 
@@ -48,7 +43,7 @@ public class LSystem {
       @param YHome       the Y coordinate of the L-Systems Turtle
       @param productions the productionst that each character will map to
     */
-    public LSystem(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome, final ArrayList<Production> productions) {
+    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome, final ArrayList<Production> productions) {
         this.axiom = axiom;
         this.stepSize = stepSize;
         this.delta = delta;
@@ -150,7 +145,7 @@ public class LSystem {
     public Model draw() {
         Model lSystem = new Model("lSystem");
         Turtle turtle = new Turtle(lSystem,  this.xHome, this.yHome, -25.0);
-        Stack<TurtleState> branchStack = new Stack<>();
+        Stack<TurtleState2D> branchStack = new Stack<>();
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch(axiom.charAt(i)) {
@@ -185,11 +180,11 @@ public class LSystem {
                 case '[':
                     double startBranchX = turtle.getXPos();
                     double startBranchY = turtle.getYPos();
-                    branchStack.push(new TurtleState(startBranchX, startBranchY, -25.0, turtle.getHeading()));
+                    branchStack.push(new TurtleState2D(startBranchX, startBranchY, -25.0, turtle.getHeading()));
                     break;
                 case ']':
                     turtle.penUp();
-                    TurtleState startOfBranch = branchStack.pop();
+                    TurtleState2D startOfBranch = branchStack.pop();
                     turtle.moveTo(startOfBranch.getX(), startOfBranch.getY());
                     turtle.setHeading(startOfBranch.getHeading());
                     turtle.penDown();
