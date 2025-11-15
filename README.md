@@ -12,6 +12,9 @@ model to be able to render them 3 dimansionally.
 - [The Algorithmic Beauty of Plants](https://algorithmicbotany.org/papers/abop/abop.pdf)
 - [L Systems : Creating Plants from Simple Rules - Computerphile](https://youtu.be/puwhf-404Xc?si=Pz6ax7lGY5Fyilyy)
 - [Examples of L-Systems](https://paulbourke.net/fractals/lsys/)
+- [PARAMETRIC L-SYSTEMS AND THEIR APPLICATION
+  T O THE MODELLING AND VISUALIZATION
+  OF PLANTS](https://algorithmicbotany.org/papers/hanan.dis1992.pdf)
 
 ```Turtle interpretation of symbols
 F Move foreward and draw a line.
