@@ -3,6 +3,7 @@ package renderer.models_L.lsystems;
 import renderer.models_L.turtlegraphics.Turtle;
 import renderer.models_L.turtlegraphics.TurtleState2D;
 import renderer.scene.Model;
+import renderer.scene.Vertex;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ public class LSystem2D {
     private double xHome;
     private double yHome;
     private final HashMap<Character, String> productions = new HashMap<>();
+
+    // variables for the bounding box of the final L-System
+    private double minX, minY, maxX, maxY;
 
     /**
      * @param axiom    the starting {@link String} that the productions will expand
@@ -50,6 +54,11 @@ public class LSystem2D {
         this.delta = delta;
         this.xHome = xHome;
         this.yHome = yHome;
+
+        this.minX = xHome;
+        this.maxX = xHome;
+        this.minY = yHome;
+        this.maxY = yHome;
 
         for (Production p : productions) {
             this.productions.put(p.predecessor, p.successor);
@@ -333,8 +342,7 @@ public class LSystem2D {
         final Production p1 = new Production('X', "F[+X]F[-X]+X");
         final Production p2 = new Production('F', "FF");
 
-        tree.addProduction(p1);
-        tree.addProduction(p2);
+        tree.addProduction(p1, p2);
         tree.expand(expansions);
 
         return tree.draw();
@@ -351,8 +359,7 @@ public class LSystem2D {
         final Production p1 = new Production('X', "F[+X][-X]FX");
         final Production p2 = new Production('F', "FF");
 
-        tree.addProduction(p1);
-        tree.addProduction(p2);
+        tree.addProduction(p1, p2);
         tree.expand(expansions);
 
         return tree.draw();
@@ -369,8 +376,7 @@ public class LSystem2D {
         final Production p1 = new Production('X', "F-[[X]+X]+F[+FX]-X");
         final Production p2 = new Production('F', "FF");
 
-        tree.addProduction(p1);
-        tree.addProduction(p2);
+        tree.addProduction(p1, p2);
         tree.expand(expansions);
 
         return tree.draw();
@@ -450,17 +456,22 @@ public class LSystem2D {
      * '[' Start a branch. <br>
      * ']' Complete a branch. <br>
      * <br>
-     * <p>
+     *
+     * saves the minX, maxX, minY and maxY to position the model
+     * in Model space to be completely visible after rendering.
      * Returns a {@link Model}
      */
     public Model draw() {
         Model lSystem = new Model("lSystem");
-        Turtle turtle = new Turtle(lSystem, this.xHome, this.yHome, -25.0);
+        Turtle turtle = new Turtle(lSystem, this.xHome, this.yHome, 0.0);
         Stack<TurtleState2D> branchStack = new Stack<>();
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch (axiom.charAt(i)) {
-                case 'F' -> turtle.forward(this.stepSize);
+                case 'F' -> {
+                    turtle.forward(this.stepSize);
+                    updateBounds(turtle.getXPos(),  turtle.getYPos());
+                }
                 case 'f' -> {
                     turtle.penUp();
                     turtle.forward(this.stepSize);
@@ -473,7 +484,7 @@ public class LSystem2D {
                 case '[' -> {
                     double startBranchX = turtle.getXPos();
                     double startBranchY = turtle.getYPos();
-                    branchStack.push(new TurtleState2D(startBranchX, startBranchY, -25.0, turtle.getHeading()));
+                    branchStack.push(new TurtleState2D(startBranchX, startBranchY, 0.0, turtle.getHeading()));
                 }
                 case ']' -> {
                     turtle.penUp();
@@ -482,11 +493,31 @@ public class LSystem2D {
                     turtle.setHeading(startOfBranch.getHeading());
                     turtle.penDown();
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + axiom.charAt(i));
+                default -> {}
             }
         }
 
+        final double centerX = (maxX - minX) / 2;
+        final double centerY = (maxY - minY) / 2;
+
+        double dx = (maxX - minX) / 2.0;
+        double dy = (maxY - minY) / 2.0;
+        double distance = Math.max(dx, dy) * 1.05;
+
+        lSystem.vertexList.replaceAll(vertex -> new Vertex(
+                vertex.x - centerX,
+                vertex.y - centerY,
+                vertex.z - distance
+        ));
+
         return lSystem;
+    }
+
+    private void updateBounds(double x, double y) {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
     }
 
     public String getAxiom() {

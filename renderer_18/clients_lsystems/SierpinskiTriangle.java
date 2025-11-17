@@ -12,7 +12,7 @@ public class SierpinskiTriangle {
     public static void main(String[] args) {
         final Scene scene = new Scene("Sierpinski Triangle");
         scene.addPosition(new Position(new Model(), "p0"));
-        scene.camera.viewTranslate(5, 0, 50);
+//        scene.camera.viewTranslate(5, 0, 50);
 
         final int width = 1024;
         final int height = 1024;
