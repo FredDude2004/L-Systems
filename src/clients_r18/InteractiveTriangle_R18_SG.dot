@@ -1,0 +1,65 @@
+strict digraph {
+graph [ordering="out"];
+graph [fontname="helvetica"];
+node  [fontname="helvetica"];
+edge  [fontname="helvetica"];
+scene [label="Scene: InteractiveTriangle_R18"];
+Camera [label="Camera"];
+scene -> Camera;
+positionList [label="List<Position>"];
+scene -> positionList;
+_p0 [label="Position: triangle"];
+positionList -> _p0;
+_p0_Matrix [label="Matrix:
+[[  1.00000    0.00000    0.00000    0.00000 ]
+ [  0.00000    1.00000    0.00000    0.00000 ]
+ [  0.00000    0.00000    1.00000    0.00000 ]
+ [  0.00000    0.00000    0.00000    1.00000 ]]"];
+_p0 -> _p0_Matrix;
+_m1 [label="Model: triangle"];
+_p0 -> _m1;
+_m1_Matrix [label="Matrix:
+[[  1.00000    0.00000    0.00000    0.00000 ]
+ [  0.00000    1.00000    0.00000    0.00000 ]
+ [  0.00000    0.00000    1.00000    0.00000 ]
+ [  0.00000    0.00000    0.00000    1.00000 ]]"];
+_m1 -> _m1_Matrix;
+_m1_vertexList [label="List<Vertex>"];
+_m1 -> _m1_vertexList;
+_m1_v0 [label="Vertex: (x,y,z,w)=(   1.00000     0.00000     0.00000     1.00000)"];
+_m1_vertexList -> _m1_v0;
+_m1_v1 [label="Vertex: (x,y,z,w)=(   0.00000     1.00000     0.00000     1.00000)"];
+_m1_v0 -> _m1_v1;
+_m1_v2 [label="Vertex: (x,y,z,w)=(   0.00000     0.00000     0.00000     1.00000)"];
+_m1_v1 -> _m1_v2;
+_m1_colorList [label="List<Color>"];
+_m1 -> _m1_colorList;
+_m1_c0 [label="java.awt.Color[r=255,g=0,b=0]"];
+_m1_colorList -> _m1_c0;
+_m1_c1 [label="java.awt.Color[r=0,g=255,b=0]"];
+_m1_c0 -> _m1_c1;
+_m1_c2 [label="java.awt.Color[r=0,g=0,b=255]"];
+_m1_c1 -> _m1_c2;
+_m1_c3 [label="java.awt.Color[r=150,g=200,b=150]"];
+_m1_c2 -> _m1_c3;
+_m1_c4 [label="java.awt.Color[r=255,g=255,b=255]"];
+_m1_c3 -> _m1_c4;
+_m1_c5 [label="java.awt.Color[r=73,g=98,b=73]"];
+_m1_c4 -> _m1_c5;
+_m1_textureList [label="List<Texture>"];
+_m1 -> _m1_textureList;
+_m1_tex0 [label="Texture: ../assets/textures/Yoda.ppm"];
+_m1_textureList -> _m1_tex0;
+_m1_texCoordList [label="List<TexCoord>"];
+_m1 -> _m1_texCoordList;
+_m1_texCoord0 [label="TexCoord: (s, t) = ( 0.00000   0.00000)"];
+_m1_texCoordList -> _m1_texCoord0;
+_m1_texCoord1 [label="TexCoord: (s, t) = ( 1.00000   0.00000)"];
+_m1_texCoord0 -> _m1_texCoord1;
+_m1_texCoord2 [label="TexCoord: (s, t) = ( 1.00000   1.00000)"];
+_m1_texCoord1 -> _m1_texCoord2;
+_m1_primitiveList [label="List<Primitive>"];
+_m1 -> _m1_primitiveList;
+_m1_p0 [label="Triangle: ([0, 1, 2], [0, 1, 2], [3, 4, 5] with texture index 0, tc: [0, 1, 2])"];
+_m1_primitiveList -> _m1_p0;
+}

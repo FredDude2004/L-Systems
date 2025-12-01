@@ -62,6 +62,12 @@ public final class Vertex
       this.w = w;
    }
 
+   public boolean equals(Vertex v) {
+       if (this.x == v.x && this.y == v.y && this.z == v.z) 
+	   return true;
+
+       return false;
+   }
 
    /**
       For debugging.

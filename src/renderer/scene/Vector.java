@@ -6,6 +6,8 @@
 
 package renderer.scene;
 
+import renderer.scene.Vertex;
+
 /**
    A {@code Vector} object holds four doubles, which makes it a vector
    in 4-dimensional space.
@@ -50,6 +52,23 @@ public final class Vector
       this.y = y;
       this.z = z;
       this.w = w;
+   }
+
+   /**
+      Construct a new {@code Vector} using the given {@link Vetex}'s a and b.
+      <p>
+      This constructor is used to create the column vectors in a 4-by-4
+      homogeneous {@link Matrix}.
+
+      @param a  x-coordinate of the new {@code Vector}
+      @param b  y-coordinate of the new {@code Vector}
+   */
+   public Vector(final Vertex a, final Vertex b)
+   {
+       this.x = b.x - a.x;
+       this.y = b.y - a.y;
+       this.z = b.z - a.z;
+       this.w = b.w - a.w;
    }
 
 
@@ -113,6 +132,20 @@ public final class Vector
 
 
    /**
+     A {@code Vector} plus a {@link Vertex} returns a (new) {@link Vertex}.
+     <p>
+     The vector translates the vertex to a new location.
+
+     @param v  {@link Vertex} object to add to this {@code Vector}
+     @return a new {@link Vertex} object that is the translation of {@code v} by this {@code Vector}
+     */
+   public Vertex plus(final Vertex v)
+   {
+       return new Vertex(x + v.x, y + v.y, z + v.z);
+   }
+
+
+   /**
       A {@code Vector} minus a {@code Vector} returns a (new) {@code Vector}.
 
       @param v  {@code Vector} object to subtract from this {@code Vector}
@@ -138,18 +171,53 @@ public final class Vector
       return new Vector(x/norm, y/norm, z/norm);
    }
 
+   /**
+      The cross-product of two {@code Vector}s returns a (new) {@code Vector}.
+
+      @param u  {@code Vector}
+      @param v  {@code Vector}
+      @return a new {@code Vector} object that is the cross-product of {@code Vector} u and {@code Vector} v.
+   */
+   public static Vector crossProduct(final Vector u, final Vector v) {
+       return new Vector(u.y * v.z - u.z * v.y,
+               u.z * v.x - u.x * v.z,
+               u.x * v.y - u.y * v.x);
+   }
+
 
    /**
-      A {@code Vector} plus a {@link Vertex} returns a (new) {@link Vertex}.
-      <p>
-      The vector translates the vertex to a new location.
+      The dot-product of two {@code Vector}s returns a (new) {@code Vector}.
 
-      @param v  {@link Vertex} object to add to this {@code Vector}
-      @return a new {@link Vertex} object that is the translation of {@code v} by this {@code Vector}
+      @param u  {@code Vector}
+      @param v  {@code Vector}
+      @return a new {@code Vector} object that is the dot-product of {@code Vector} u and {@code Vector} v.
    */
-   public Vertex plus(final Vertex v)
-   {
-      return new Vertex(x + v.x, y + v.y, z + v.z);
+   public static double dotProduct(final Vector u, final Vector v) {
+       return u.x * v.x + u.y * v.y + u.z * v.z;
+   }
+
+
+   /**
+      @param v the {@link Vector} to be normalized.
+      Return the normalized version of the {@code Vector} v.
+      <p>
+      That is, return the {@code Vector} with length 1 that
+      points in the same direction as this {@code Vector}.
+
+      @return a new {@code Vector} that has length one and has the same direction as the {@code Vector} v.
+   */
+   public static Vector normalize(Vector v) {
+       double len = Math.sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
+       return new Vector(v.x / len, v.y / len, v.z / len);
+   }
+
+
+   /**
+    * @param v
+    * @return the length of the {@code Vector} v.
+    */
+   public static double length(final Vector v) {
+       return Math.sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
    }
 
 

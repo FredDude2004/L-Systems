@@ -160,7 +160,7 @@ public class StochasticLSystem {
     }
 
     public static Model binaryTree(int expansions) {
-	StochasticLSystem binTree = new StochasticLSystem("F", 1.0, 25);
+	StochasticLSystem binTree = new StochasticLSystem("F", 0.25, 25);
 	StochasticProduction binTreeP1 = new StochasticProduction('F', "F[+F]F", 0.55);
 	StochasticProduction binTreeP2 = new StochasticProduction('F', "F[-F]F", 0.55);
 	StochasticProduction binTreeP3 = new StochasticProduction('F', "F[+F]F[-F]F", 0.55);
@@ -171,7 +171,7 @@ public class StochasticLSystem {
     }
 
     public static Model fern(int expansions) {
-	StochasticLSystem fern = new StochasticLSystem("X", 1.0, 22.5);
+	StochasticLSystem fern = new StochasticLSystem("X", 0.5, 22.5);
 	StochasticProduction fernP1 = new StochasticProduction('X', "F-[[X]+X]+F[+FX]-X", 0.6);
 	StochasticProduction fernP2 = new StochasticProduction('X', "F[+X]-X", 0.4);
 	StochasticProduction fernP3 = new StochasticProduction('X', "FF");
@@ -182,20 +182,19 @@ public class StochasticLSystem {
     }
 
     public static Model flower(int expansions) {
-	StochasticLSystem flower = new StochasticLSystem("X", 1.0, 15.0);
+	StochasticLSystem flower = new StochasticLSystem("X", 0.5, 15.0);
 	StochasticProduction flowP1 = new StochasticProduction('X', "F[+X]F[-X]+X", 0.5);
 	StochasticProduction flowP2 = new StochasticProduction('X', "F[-X]+X", 0.3);
 	StochasticProduction flowP3 = new StochasticProduction('X', "Ff", 0.2);
-	StochasticProduction flowP4 = new StochasticProduction('F', "FF");
 
-	flower.addProduction(flowP1, flowP2, flowP3, flowP4);
+	flower.addProduction(flowP1, flowP2, flowP3);
 	flower.expand(expansions);
 	return flower.draw();
     }
 
 
     public static Model coral(int expansions) {
-	StochasticLSystem coral = new StochasticLSystem("F", 1.0, 20.0);
+	StochasticLSystem coral = new StochasticLSystem("F", 0.75, 20.0);
 	StochasticProduction coralP1 = new StochasticProduction('F', "F[+F]F", 0.5);
 	StochasticProduction coralP2 = new StochasticProduction('F', "F[-F]F", 0.25);
 	StochasticProduction coralP3 = new StochasticProduction('F', "F[+F][-F]", 0.25);

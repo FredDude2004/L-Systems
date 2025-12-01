@@ -1,6 +1,7 @@
 package renderer.models_L.lsystems;
 
 import renderer.models_L.turtlegraphics.Turtle;
+import renderer.models_L.turtlegraphics.Turtle2D;
 import renderer.models_L.turtlegraphics.TurtleState2D;
 import renderer.scene.Model;
 import renderer.scene.Vertex;
@@ -17,6 +18,7 @@ public class LSystem2D {
     private double xHome;
     private double yHome;
     private final HashMap<Character, String> productions = new HashMap<>();
+    private final HashMap<Character, Model> surfaces = new HashMap<>();
 
     // variables for the bounding box of the final L-System
     private double minX, minY, maxX, maxY;
@@ -458,14 +460,16 @@ public class LSystem2D {
      * ']' Complete a branch. <br>
      * <br>
      *
-     * saves the minX, maxX, minY and maxY to position the model
-     * in Model space to be completely visible after rendering.
+     * Creates a bounding box that can be retrieved with getBoundingBox()
+     *
      * Returns a {@link Model}
      */
     public Model draw() {
         Model lSystem = new Model("lSystem");
-        Turtle turtle = new Turtle(lSystem, this.xHome, this.yHome, 0.0);
+        Turtle2D turtle = new Turtle2D(lSystem, this.xHome, this.yHome, 0.0);
         Stack<TurtleState2D> branchStack = new Stack<>();
+        String polygon = "";
+        ArrayList<String> polygons = new ArrayList<>();
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch (axiom.charAt(i)) {
@@ -493,6 +497,18 @@ public class LSystem2D {
                     turtle.moveTo(startOfBranch.getX(), startOfBranch.getY());
                     turtle.setHeading(startOfBranch.getHeading());
                     turtle.penDown();
+                }
+                case '{' -> {
+                    continue;
+                }
+                case 'G' -> {
+                    continue;
+                }
+                case '.' -> {
+                    continue;
+                }
+                case '}' -> {
+                    continue;
                 }
                 default -> {}
             }

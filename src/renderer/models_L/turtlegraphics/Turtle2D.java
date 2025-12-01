@@ -12,7 +12,7 @@ import renderer.scene.primitives.*;
 /**
    https://www.clear.rice.edu/comp360/lectures/K10188_C001.pdf
 */
-public class Turtle
+public class Turtle2D
 {
    public final Model model;
    public final String name;
@@ -26,54 +26,54 @@ public class Turtle
    private double stepSize;  // see the resize() method
 
    /**
-      @param model  a reference to the {link Model} that this {@code Turtle} is builing
+      @param model  a reference to the {link Model} that this {@code Turtle2D} is builing
       @throws NullPointerException if {@code model} is {@code null}
    */
-   public Turtle(final Model model)
+   public Turtle2D(final Model model)
    {
       this(model, model.name, 0, 0, 0);
    }
 
 
    /**
-      @param model  a reference to the {@link Model} that this {@code Turtle} is builing
-      @param name   a {@link String} that is a name for this {@code Turtle}
+      @param model  a reference to the {@link Model} that this {@code Turtle2D} is builing
+      @param name   a {@link String} that is a name for this {@code Turtle2D}
       @throws NullPointerException if {@code model} is {@code null}
       @throws NullPointerException if {@code name} is {@code null}
    */
-   public Turtle(final Model model, final String name)
+   public Turtle2D(final Model model, final String name)
    {
       this(model, name, 0, 0, 0);
    }
 
 
    /**
-      @param model  a reference to the {@link Model} that this {@code Turtle} is builing
-      @param z      the z-plane for this {@code Turtle}
+      @param model  a reference to the {@link Model} that this {@code Turtle2D} is builing
+      @param z      the z-plane for this {@code Turtle2D}
       @throws NullPointerException if {@code model} is {@code null}
    */
-   public Turtle(final Model model, final double z)
+   public Turtle2D(final Model model, final double z)
    {
       this(model, model.name, 0, 0, z);
    }
 
 
    /**
-      @param model  a reference to the {@link Model} that this {@code Turtle} is builing
-      @param name   a {@link String} that is a name for this {@code Turtle}
-      @param z      the z-plane for this {@code Turtle}
+      @param model  a reference to the {@link Model} that this {@code Turtle2D} is builing
+      @param name   a {@link String} that is a name for this {@code Turtle2D}
+      @param z      the z-plane for this {@code Turtle2D}
       @throws NullPointerException if {@code model} is {@code null}
       @throws NullPointerException if {@code name} is {@code null}
    */
-   public Turtle(final Model model, final String name, final double z)
+   public Turtle2D(final Model model, final String name, final double z)
    {
       this(model, name, 0, 0, z);
    }
 
 
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
-      @param xHome   the intial x-coordinate for this {@code Turtle}
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
+      @param xHome   the intial x-coordinate for this {@code Turtle2D}
       @param yHome   the intial y-coordinate for this {@code Turtle}
       @param z       the z-plane for this {@code Turtle}
       @throws NullPointerException if {@code model} is {@code null}
@@ -233,7 +233,7 @@ public class Turtle
 
       @param turtle  the {@code Turtle} to turn towards
    */
-   public void turnToFace(final Turtle turtle)
+   public void turnToFace(final Turtle2D turtle)
    {
       turnToFace(turtle.xPos, turtle.yPos);
    }
