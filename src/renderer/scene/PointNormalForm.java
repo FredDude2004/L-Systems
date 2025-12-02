@@ -1,3 +1,5 @@
+package renderer.scene;
+
 import renderer.scene.Vector;
 import renderer.scene.Vertex;
 

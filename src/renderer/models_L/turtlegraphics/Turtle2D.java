@@ -78,7 +78,7 @@ public class Turtle2D
       @param z       the z-plane for this {@code Turtle}
       @throws NullPointerException if {@code model} is {@code null}
    */
-   public Turtle(final Model model, final double xHome, final double yHome, final double z)
+   public Turtle2D(final Model model, final double xHome, final double yHome, final double z)
    {
       this(model, model.name, xHome, yHome, z);
    }
@@ -93,7 +93,7 @@ public class Turtle2D
       @throws NullPointerException if {@code model} is {@code null}
       @throws NullPointerException if {@code name} is {@code null}
    */
-   public Turtle(final Model model, final String name, final double xHome, final double yHome, final double z)
+   public Turtle2D(final Model model, final String name, final double xHome, final double yHome, final double z)
    {
       if (null == model)
          throw new NullPointerException("Turtle's Model must not be null");
@@ -115,7 +115,7 @@ public class Turtle2D
 
 
    /**
-      Check if this {@code Turtle}'s pen is down.
+      Check if this {@code Turtle2D}'s pen is down.
 
       @return true if down else false
    */
@@ -126,9 +126,9 @@ public class Turtle2D
 
 
    /**
-      Set this {@code Turtle}'s penDown variable.
+      Set this {@code Turtle2D}'s penDown variable.
 
-      @param value  value for this {@code Turtle}'s penDown variable
+      @param value  value for this {@code Turtle2D}'s penDown variable
    */
    public void setPenDown(final boolean value)
    {
@@ -137,7 +137,7 @@ public class Turtle2D
 
 
    /**
-      Set this {@code Turtle}'s pen down.
+      Set this {@code Turtle2D}'s pen down.
    */
    public void penDown()
    {
@@ -146,7 +146,7 @@ public class Turtle2D
 
 
    /**
-      Lift this {@code Turtle}'s pen up.
+      Lift this {@code Turtle2D}'s pen up.
    */
    public void penUp()
    {
@@ -155,9 +155,9 @@ public class Turtle2D
 
 
    /**
-      Get the current x position of this {@code Turtle}.
+      Get the current x position of this {@code Turtle2D}.
 
-      @return the x position of this {@code Turtle}
+      @return the x position of this {@code Turtle2D}
    */
    public double getXPos()
    {
@@ -166,9 +166,9 @@ public class Turtle2D
 
 
    /**
-      Get the current y position of this {@code Turtle}.
+      Get the current y position of this {@code Turtle2D}.
 
-      @return the y position of this {@code Turtle}
+      @return the y position of this {@code Turtle2D}
    */
    public double getYPos()
    {
@@ -177,9 +177,9 @@ public class Turtle2D
 
 
    /**
-      Get the current heading of this {@code Turtle}.
+      Get the current heading of this {@code Turtle2D}.
 
-      @return the heading in degrees of this {@code Turtle}
+      @return the heading in degrees of this {@code Turtle2D}
    */
    public double getHeading()
    {
@@ -188,9 +188,9 @@ public class Turtle2D
 
 
    /**
-      Set the heading of this {@code Turtle}.
+      Set the heading of this {@code Turtle2D}.
 
-      @param heading  new heading in degrees for this {@code Turtle}
+      @param heading  new heading in degrees for this {@code Turtle2D}
    */
    public void setHeading(final double heading)
    {
@@ -199,7 +199,7 @@ public class Turtle2D
 
 
    /**
-      Turn this {@code Turtle} 90 degrees clockwise.
+      Turn this {@code Turtle2D} 90 degrees clockwise.
    */
    public void right()
    {
@@ -208,7 +208,7 @@ public class Turtle2D
 
 
    /**
-      Turn this {@code Turtle} 90 degrees counterclockwise.
+      Turn this {@code Turtle2D} 90 degrees counterclockwise.
    */
    public void left()
    {
@@ -217,10 +217,10 @@ public class Turtle2D
 
 
    /**
-      Turn this {@code Turtle} by the given angle in degrees.
+      Turn this {@code Turtle2D} by the given angle in degrees.
       Use positive angles to turn clockwise and negative angles to turn counterclockwise.
 
-      @param degrees  the amount to turn this {@code Turtle} in degrees
+      @param degrees  the amount to turn this {@code Turtle2D} in degrees
    */
    public void turn(final double degrees)
    {
@@ -229,9 +229,9 @@ public class Turtle2D
 
 
    /**
-      Turn this {@code Turtle} to face another {@code Turtle}.
+      Turn this {@code Turtle2D} to face another {@code Turtle}.
 
-      @param turtle  the {@code Turtle} to turn towards
+      @param turtle  the {@code Turtle2D} to turn towards
    */
    public void turnToFace(final Turtle2D turtle)
    {
@@ -240,10 +240,10 @@ public class Turtle2D
 
 
    /**
-      Turn this {@code Turtle} towards the given (x, y).
+      Turn this {@code Turtle2D} towards the given (x, y).
 
-      @param x  the x to turn this {@code Turtle} towards
-      @param y  the y to turn this {@code Turtle} towards
+      @param x  the x to turn this {@code Turtle2D} towards
+      @param y  the y to turn this {@code Turtle2D} towards
    */
    public void turnToFace(final double x, final double y)
    {
@@ -277,7 +277,7 @@ public class Turtle2D
 
 
    /**
-      Move this {@code Turtle} to the coordinates (0, 0) and give it the heading of 0 degrees.
+      Move this {@code Turtle2D} to the coordinates (0, 0) and give it the heading of 0 degrees.
    */
    public void home()
    {
@@ -288,10 +288,10 @@ public class Turtle2D
 
 
    /**
-      Move this {@code Turtle} to the given (x, y) location.
+      Move this {@code Turtle2D} to the given (x, y) location.
 
-      @param x  the x-coordinate to move this {@code Turtle} to
-      @param y  the y-coordinate to move this {@code Turtle} to
+      @param x  the x-coordinate to move this {@code Turtle2D} to
+      @param y  the y-coordinate to move this {@code Turtle2D} to
    */
    public void moveTo(final double x, final double y)
    {
@@ -301,7 +301,7 @@ public class Turtle2D
 
 
    /**
-      Move this {@code Turtle} foward one unit in the heading direction.
+      Move this {@code Turtle2D} foward one unit in the heading direction.
    */
    public void forward()
    {
@@ -310,7 +310,7 @@ public class Turtle2D
 
 
    /**
-      Move this {@code Turtle} backward one unit.
+      Move this {@code Turtle2D} backward one unit.
    */
    public void backward()
    {
@@ -319,9 +319,9 @@ public class Turtle2D
 
 
    /**
-      Move this {@code Turtle} backward the given number of units.
+      Move this {@code Turtle2D} backward the given number of units.
 
-      @param distance  the distance to walk this {@code Turtle} backward
+      @param distance  the distance to walk this {@code Turtle2D} backward
    */
    public void backward(final double distance)
    {
@@ -330,12 +330,12 @@ public class Turtle2D
 
 
    /**
-      Move this {@code Turtle} forward the given number of units
+      Move this {@code Turtle2D} forward the given number of units
       in the heading direction. If the pen is down, then add two
       {@link Vertex} objects and a {@link LineSegment} object to
-      the underlying {@code Turtle}.
+      the underlying {@code Turtle2D}.
 
-      @param distance  the distance to walk this {@code Turtle} forward in the heading direction
+      @param distance  the distance to walk this {@code Turtle2D} forward in the heading direction
    */
    public void forward(final double distance)
    {
@@ -358,17 +358,26 @@ public class Turtle2D
       }
    }
 
+   /**
+    * record a {@code Vertex} in the {@code Turtle2D}'s current position.
+    */
+   public void recordVertex() {
+       final int index = this.model.vertexList.size();
+       final Vertex v = new Vertex(xPos, yPos, z);
+       this.model.addVertex(v);
+   }
+
 
    /**
       Same as the forward() method but without building a {@link LineSegment}.
       <p>
-      This is part of "Turtle Geometry" as defined by Ronald Goldman.
+      This is part of "Turtle2D Geometry" as defined by Ronald Goldman.
       <p>
-      https://www.clear.rice.edu/comp360/lectures/old/TurtlesGraphicL1New.pdf
-      https://people.engr.tamu.edu/schaefer/research/TurtlesforCADRevised.pdf
+      https://www.clear.rice.edu/comp360/lectures/old/Turtle2DsGraphicL1New.pdf
+      https://people.engr.tamu.edu/schaefer/research/Turtle2DsforCADRevised.pdf
       https://www.routledge.com/An-Integrated-Introduction-to-Computer-Graphics-and-Geometric-Modeling/Goldman/p/book/9781138381476
 
-      @param distance  the distance to walk this {@code Turtle} forward in the heading direction
+      @param distance  the distance to walk this {@code Turtle2D} forward in the heading direction
    */
    public void move(final double distance)
    {
@@ -381,7 +390,7 @@ public class Turtle2D
    /**
       Change the length of the step size by the factor {@code s}.
       <p>
-      This is part of "Turtle Geometry" as defined by Ronald Goldman.
+      This is part of "Turtle2D Geometry" as defined by Ronald Goldman.
 
       @param s  scaling factor for the new {@code stepSize}
    */
@@ -394,16 +403,16 @@ public class Turtle2D
    /**
       For debugging.
 
-      @return {@link String} representation of this {@code Turtle} object
+      @return {@link String} representation of this {@code Turtle2D} object
    */
    @Override
    public String toString()
    {
       String result = "";
-      result += "Turtle: " + name + "\n";
+      result += "Turtle2D: " + name + "\n";
       result += "z-plane: " + z + "\n";
       result += "origin: (" + xPos + ", " + yPos + ")\n";
       result += model.toString() + "\n";
       return result;
    }
-}//Turtle
+}//Turtle2D
