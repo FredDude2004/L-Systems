@@ -20,32 +20,17 @@ public class PolygonTest {
         final int width = 1024;
         final int height = 1024;
         final FrameBuffer fb = new FrameBuffer(width, height, Color.white);
-        //
-        // final Model manualSquare = new Model("manual square");
-        // manualSquare.addVertex(new Vertex(0.0, 0.0, 0.0),
-        //         new Vertex(0.0, 1.0, 0.0),
-        //         new Vertex(1.0, 1.0, 0.0),
-        //         new Vertex(1.0, 0.0, 0.0));
-        //
-        // manualSquare.addColor(Color.black);
-        //
-        // manualSquare.addPrimitive(new Triangle(0, 1, 2, 0));
-        // manualSquare.addPrimitive(new Triangle(0, 2, 3, 0));
-        //
-        // manualSquare.doBackFaceCulling = false;
-        // System.out.println(manualSquare);
-        //
-        //
-        // scene.getPosition(0).setModel(manualSquare);
-        // fb.clearFB();
-        // Pipeline.render(scene, fb);
-        // fb.dumpFB2File("manualSquare.ppm");
+
+        // n=7, δ=22.5◦
+        // ω : A
+        // p1 : A → [&FL!A]/////’[&FL!A]///////’[&FL!A]
+        // p2 : F → S ///// F
+        // p3 : S → F L
+        // p4 : L → [’’’∧∧{-f+f+f-|-f+f+f}]
 
         Polygon square = new Polygon(".f+.f+.f+.f", 90.0);
         square.doBackFaceCulling = false;
-        // System.out.println(square);
 
-        // scene.debug = true;
         scene.getPosition(0).setModel(square);
         fb.clearFB();
         Pipeline.render(scene, fb);

@@ -1,5 +1,6 @@
 package renderer.models_L.lsystems;
 
+import renderer.models_L.lsystems.Polygon;
 import renderer.models_L.turtlegraphics.Turtle3D;
 import renderer.models_L.turtlegraphics.TurtleState3D;
 import renderer.scene.Model;
@@ -7,6 +8,9 @@ import renderer.scene.Model;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.awt.Color;
+
+//TODO: Make this extend Model
 
 public class LSystem3D {
     private String axiom;
@@ -16,6 +20,7 @@ public class LSystem3D {
     private double yHome;
     private double zHome;
     private final HashMap<Character, String> productions = new HashMap<>();
+    private final ArrayList<Color> colorList = new ArrayList<>();
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
@@ -60,32 +65,6 @@ public class LSystem3D {
         }
     }
 
-    /**
-      Change the starting X of the Turtle
-
-      @param newXHome  a double that sets the X corrdinate
-    */
-    public final void setXHome(final double newXHome) {
-        this.xHome = newXHome;
-    }
-
-    /**
-      Change the starting Y of the Turtle
-
-      @param newYHome  a double that sets the Y corrdinate
-    */
-    public final void setYHome(final double newYHome) {
-        this.yHome = newYHome;
-    }
-
-    /**
-     Change the starting Z of the Turtle
-
-     @param newZHome  a double that sets the Z corrdinate
-     */
-    public final void setZHome(final double newZHome) {
-        this.zHome = newZHome;
-    }
 
     /**
       Add a {@link Production} to this {@code LSystem3D}
@@ -95,6 +74,17 @@ public class LSystem3D {
     public final void addProduction(final Production... pArray) {
         for (Production p : pArray) {
             this.productions.put(p.predecessor, p.successor);
+        }
+    }
+
+    /**
+      Add a {@link Production} to this {@code LSystem3D}
+
+      @param pArray  array of {@link Production} objects to add to this {@code LSystem3D}
+    */
+    public final void addColor(final Color... cArray) {
+        for (Color c : cArray) {
+            colorList.add(c);
         }
     }
 
@@ -160,48 +150,32 @@ public class LSystem3D {
         Model lSystem = new Model("lSystem");
         Turtle3D turtle = new Turtle3D(lSystem, "lSystem", this.xHome, this.yHome, this.zHome);
         Stack<TurtleState3D> branchStack = new Stack<>();
+        String polygon = "";
+        ArrayList<String> polygons = new ArrayList<>();
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch(axiom.charAt(i)) {
-                case 'F':
-                    turtle.forward(this.stepSize);
-                    break;
-                case 'f':
+                case 'F' -> turtle.forward(this.stepSize);
+                case 'f' -> {
                     turtle.penUp();
                     turtle.forward(this.stepSize);
                     turtle.penDown();
-                    break;
-                case '+':
-                    turtle.yaw(this.delta);
-                    break;
-                case '-':
-                    turtle.yaw(-this.delta);
-                    break;
-                case '^':
-                    turtle.pitch(this.delta);
-                    break;
-                case '&':
-                    turtle.pitch(-this.delta);
-                    break;
-                case '\\':
-                    turtle.roll(this.delta);
-                    break;
-                case '/':
-                    turtle.roll(-this.delta);
-                    break;
-                case '|':
-                    turtle.yaw(180.0);
-                    break;
-                case '$':
-                    turtle.resetAxes();
-                    break;
-                case '[':
+                }
+                case '+' -> turtle.yaw(this.delta);
+                case '-' -> turtle.yaw(-this.delta);
+                case '^' -> turtle.pitch(this.delta);
+                case '&' -> turtle.pitch(-this.delta);
+                case '\\' -> turtle.roll(this.delta);
+                case '/' -> turtle.roll(-this.delta);
+                case '|' -> turtle.yaw(180.0);
+                case '$' -> turtle.resetAxes();
+                case '[' -> {
                     double startBranchX = turtle.getXPos();
                     double startBranchY = turtle.getYPos();
                     double startBranchZ = turtle.getZPos();
                     branchStack.push(new TurtleState3D(startBranchX, startBranchY, startBranchZ, turtle.getLeft(), turtle.getHeading(), turtle.getUp()));
-                    break;
-                case ']':
+                }
+                case ']' -> {
                     turtle.penUp();
                     TurtleState3D startOfBranch = branchStack.pop();
                     turtle.moveTo(startOfBranch.getX(), startOfBranch.getY(), startOfBranch.getZ());
@@ -209,13 +183,49 @@ public class LSystem3D {
                     turtle.setLeft(startOfBranch.getLeft());
                     turtle.setUp(startOfBranch.getUp());
                     turtle.penDown();
-                    break;
-                default:
-                    break;
+                }
+                case '{' -> {
+                    i++;
+                    while (axiom.charAt(i) != '}') {
+                        polygon += axiom.charAt(i);
+                        i++;
+                    }
+                    String name = "polygon" + polygons.size();
+                    Model p = new Polygon(name, polygon, delta);
+
+                }
+                default -> {}
             }
         }
 
         return lSystem;
+    }
+
+    /**
+      Change the starting X of the Turtle
+
+      @param newXHome  a double that sets the X corrdinate
+    */
+    public final void setXHome(final double newXHome) {
+        this.xHome = newXHome;
+    }
+
+    /**
+      Change the starting Y of the Turtle
+
+      @param newYHome  a double that sets the Y corrdinate
+    */
+    public final void setYHome(final double newYHome) {
+        this.yHome = newYHome;
+    }
+
+    /**
+     Change the starting Z of the Turtle
+
+     @param newZHome  a double that sets the Z corrdinate
+     */
+    public final void setZHome(final double newZHome) {
+        this.zHome = newZHome;
     }
 }
 

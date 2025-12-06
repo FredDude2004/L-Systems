@@ -29,6 +29,50 @@ public class PolygonHelpers {
     }
 
     /**
+     * @param vertices
+     * @return the area of the polygon as well as telling you the winding order.
+     *         If the winding order is clockwise the area will be positive.
+     *         If the winding order is counterclockwise the area will be negative.
+     */
+    public static double getArea(Vertex[] vertices) {
+        double area = 0.0;
+
+        for (int i = 0; i < vertices.length; i++) {
+            Vertex a = vertices[i];
+            Vertex b = vertices[(i + 1) % vertices.length];
+
+            double width = b.x - a.x;
+            double height = (a.y + b.y) / 2;
+
+            area += width * height;
+        }
+
+        return area;
+    }
+
+    public static Vertex[] reverseVertexArray(Vertex[] vertices) {
+        Vertex[] reversedArray = new Vertex[vertices.length];
+        for (int i = 0; i < vertices.length; i++) {
+            reversedArray[i] = vertices[vertices.length - 1 - i];
+        }
+        return reversedArray;
+    }
+
+    public static void reverseArrayInPlace(Vertex[] vertices) {
+        int start = 0;
+        int end = vertices.length - 1;
+
+        while (start < end) {
+            Vertex temp = vertices[start];
+            vertices[start] = vertices[end];
+            vertices[end] = temp;
+
+            start++;
+            end--;
+        }
+    }
+
+    /**
      * Method to treat array as a circular array
      *
      * @param array an array of type <T>
@@ -277,66 +321,3 @@ public class PolygonHelpers {
 
 }
 
-/*
- * public static float findpolygonarea(vector2[] vertices)
- * {
- * float totalarea = 0f;
- *
- * for(int i = 0; i < vertices.length; i++)
- * {
- * vector2 a = vertices[i];
- * vector2 b = vertices[(i+1) % vertices.length];
- *
- * float dy = (a.y + b.y) / 2f;
- * float dx = b.x - a.x;
- *
- * float area = dy * dx;
- * totalarea += area;
- * }
- *
- * return mathf.abs(totalarea);
- * }
- *
- *
- * if (!PolygonHelper.IsSimplePolygon(vertices))
- * {
- * errorMessage = "The vertex list does not define a simple polygon.";
- * return false;
- * }
- *
- * if(PolygonHelper.ContainsColinearEdges(vertices))
- * {
- * errorMessage = "The vertex list contains colinear edges.";
- * return false;
- * }
- *
- * PolygonHelper.ComputePolygonArea(vertices, out float area, out WindingOrder
- * windingOrder);
- *
- * if(windingOrder is WindingOrder.Invalid)
- * {
- * errorMessage = "The vertices list does not contain a valid polygon.";
- * return false;
- * }
- *
- * if(windingOrder is WindingOrder.CounterClockwise)
- * {
- * Array.Reverse(vertices);
- * }
- *
- * public static bool IsSimplePolygon(Vector2[] vertices)
- * {
- * throw new NotImplementedException();
- * }
- *
- * public static bool ContainsColinearEdges(Vector2[] vertices)
- * {
- * throw new NotImplementedException();
- * }
- *
- * public static void ComputePolygonArea(Vector2[] vertices, out float area, out
- * WindingOrder windingOrder)
- * {
- * throw new NotImplementedException();
- * }
- */

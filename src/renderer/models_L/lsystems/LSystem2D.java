@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.awt.Rectangle;
 
+//TODO: Make this extend Model
+
 public class LSystem2D {
     private String axiom;
     private final double stepSize;
@@ -39,19 +41,22 @@ public class LSystem2D {
      * @param xHome    the X coordinate of the L-Systems Turtle
      * @param yHome    the Y coordinate of the L-Systems Turtle
      */
-    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome) {
+    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome,
+            final double yHome) {
         this(axiom, stepSize, delta, xHome, yHome, new ArrayList<>());
     }
 
     /**
-     * @param axiom       the starting {@link String} that the productions will expand
+     * @param axiom       the starting {@link String} that the productions will
+     *                    expand
      * @param stepSize    the distance the turtle will walk with each step forward
      * @param delta       the angle that the turtle will turn, pitch or roll
      * @param xHome       the X coordinate of the L-Systems Turtle
      * @param yHome       the Y coordinate of the L-Systems Turtle
      * @param productions the productions that each character will map to
      */
-    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome, final double yHome, final ArrayList<Production> productions) {
+    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome,
+            final double yHome, final ArrayList<Production> productions) {
         this.axiom = axiom;
         this.stepSize = stepSize;
         this.delta = delta;
@@ -406,7 +411,8 @@ public class LSystem2D {
     /**
      * Add a {@link Production} to this {@code LSystem}
      *
-     * @param pArray array of {@link Production} objects to add to this {@code LSystem}
+     * @param pArray array of {@link Production} objects to add to this
+     *               {@code LSystem}
      */
     public final void addProduction(final Production... pArray) {
         for (Production p : pArray) {
@@ -431,18 +437,18 @@ public class LSystem2D {
      */
     public void expand(int iterations) {
         for (int i = 0; i < iterations; ++i) {
-            StringBuilder newStr = new StringBuilder();  // reset each iteration
+            StringBuilder newStr = new StringBuilder(); // reset each iteration
 
             for (int j = 0; j < axiom.length(); ++j) {
                 char c = axiom.charAt(j);
                 if (productions.containsKey(c)) {
-                    newStr.append(productions.get(c));  // replace F (or any matching char)
+                    newStr.append(productions.get(c)); // replace F (or any matching char)
                 } else {
-                    newStr.append(c);  // keep +, -, etc.
+                    newStr.append(c); // keep +, -, etc.
                 }
             }
 
-            this.axiom = newStr.toString();  // update the axiom for the next iteration
+            this.axiom = newStr.toString(); // update the axiom for the next iteration
         }
     }
 
@@ -475,7 +481,7 @@ public class LSystem2D {
             switch (axiom.charAt(i)) {
                 case 'F' -> {
                     turtle.forward(this.stepSize);
-                    updateBounds(turtle.getXPos(),  turtle.getYPos());
+                    updateBounds(turtle.getXPos(), turtle.getYPos());
                 }
                 case 'f' -> {
                     turtle.penUp();
@@ -499,18 +505,15 @@ public class LSystem2D {
                     turtle.penDown();
                 }
                 case '{' -> {
-                    continue;
+                    i++;
+                    while (axiom.charAt(i) != '}') {
+                        polygon += axiom.charAt(i);
+                        i++;
+                    }
                 }
-                case 'G' -> {
-                    continue;
+                default -> {
+                    System.out.println("Unimplemented Character: " + axiom.charAt(i));
                 }
-                case '.' -> {
-                    continue;
-                }
-                case '}' -> {
-                    continue;
-                }
-                default -> {}
             }
         }
 
@@ -525,11 +528,11 @@ public class LSystem2D {
     }
 
     public Rectangle getBoundingBox() {
-	int width = (int) Math.round(maxX - minX);
-	int height = (int) Math.round(maxY - minY);
-	int x = (int) Math.round(minX);
-	int y = (int) Math.round(minY);
-	return new Rectangle(x, y, width, height);
+        int width = (int) Math.round(maxX - minX);
+        int height = (int) Math.round(maxY - minY);
+        int x = (int) Math.round(minX);
+        int y = (int) Math.round(minY);
+        return new Rectangle(x, y, width, height);
     }
 
     public String getAxiom() {

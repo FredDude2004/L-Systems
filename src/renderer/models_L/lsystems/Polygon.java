@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import renderer.scene.primitives.Primitive;
 import renderer.scene.primitives.Triangle;
 import renderer.models_L.turtlegraphics.Turtle2D;
 import renderer.models_L.turtlegraphics.TurtleState2D;
@@ -19,6 +20,55 @@ import renderer.scene.Vertex;
 import renderer.scene.Model;
 
 public class Polygon extends Model {
+    /**
+     * Create a {@code Polygon} with a list of vertices that is black
+     * @param vertices
+     */
+    public Polygon(final Vertex[] vertices) {
+        this("Polygon", vertices, Color.black);
+    }
+
+    /**
+     * Create a {@code Polygon} with a list of vertices and a color
+     * @param vertices
+     * @param c
+     */
+    public Polygon(final Vertex[] vertices, final Color c) {
+        this("Polygon", vertices, c, c, c);
+    }
+
+    /**
+     * Create a {@code Polygon} with a name, a list of vertices and a color
+     * @param name
+     * @param vertices
+     * @param c
+     */
+    public Polygon(final String name, final Vertex[] vertices, final Color c) {
+        this(name, vertices, c, c, c);
+    }
+
+    /**
+     * Create a {@code Polygon} from a list of {@code Vertex}'s and
+     * the {@link Color}s
+     *
+     * @param name the name of the {@code Polygon} for debugging
+     * @param vertices an array of {@code Vertex}
+     * @param c0 {@link Color} 0
+     * @param c1 {@link Color} 1
+     * @param c2 {@link Color} 2
+     */
+    public Polygon(final String name,
+            final Vertex[] vertices,
+            final Color c0,
+            final Color c1,
+            final Color c2) {
+        super(name);
+        PolygonResult res = buildPolygonWithVertices(vertices, c0, c1, c2);
+        for (Vertex v : res.polygon.vertexList) { super.addVertex(v); }
+        for (Primitive p : res.polygon.primitiveList) { super.addPrimitive(p); }
+        for (Color c : res.polygon.colorList) { super.addColor(c); }
+        super.visible = true;
+    }
 
     /**
      * Create a closed filled Color.black Polygon
@@ -114,12 +164,13 @@ public class Polygon extends Model {
                    final Color c2,
                    final Color c3)
     {
+        super(name);
         PolygonResult res = buildPolygonWithTurtle2D(axiom, stepSize, delta, c1, c2, c3);
-        super(res.polygon.vertexList,
-              res.polygon.primitiveList,
-              res.polygon.colorList,
-              name,
-              true);
+
+        for (Vertex v : res.polygon.vertexList) { super.addVertex(v); }
+        for (Primitive p : res.polygon.primitiveList) { super.addPrimitive(p); }
+        for (Color c : res.polygon.colorList) { super.addColor(c); }
+        super.visible = true;
     }
 
     /**
@@ -139,12 +190,12 @@ public class Polygon extends Model {
             String errorMessage) {
     }
 
-    public static PolygonResult buildPolygonWithTurtle2D(String s,
-                                                         double stepSize,
-                                                         double delta,
-                                                         Color c1,
-                                                         Color c2,
-                                                         Color c3)
+    public static PolygonResult buildPolygonWithTurtle2D(final String s,
+                                                         final double stepSize,
+                                                         final double delta,
+                                                         final Color c1,
+                                                         final Color c2,
+                                                         final Color c3)
     {
         boolean success = true;
         Model polygon = null;
@@ -166,15 +217,44 @@ public class Polygon extends Model {
                 success = false;
             }
 
+            for (int i = 0; i < res.triangles.length; i += 3) {
+                int a = res.triangles[i];
+                int b = res.triangles[i + 1];
+                int c = res.triangles[i + 2];
 
+                polygon.addPrimitive(new Triangle(a, b, c, 0, 1, 2));
+            }
+
+            break;
+        }
+
+        return new PolygonResult(success, polygon, err);
+    }
+
+    public static PolygonResult buildPolygonWithVertices(final Vertex[] vertices,
+            final Color c1,
+            final Color c2,
+            final Color c3)
+    {
+        boolean success = true;
+        Model polygon = null;
+        String err = "";
+
+        while (success) {
+            TriangulateResult res = triangulateWithEarClipping(vertices);
+            if (!res.success) {
+                err = "Failed to triangulate: " + res.errorMessage + " Exited with error code 1.";
+                System.out.println(err);
+                System.exit(1);
+                success = false;
+            }
 
             for (int i = 0; i < res.triangles.length; i += 3) {
                 int a = res.triangles[i];
                 int b = res.triangles[i + 1];
                 int c = res.triangles[i + 2];
 
-                polygon.addPrimitive(
-                        new Triangle(a, b, c, 0, 1, 2));
+                polygon.addPrimitive(new Triangle(a, b, c, 0, 1, 2));
             }
 
             break;
@@ -237,30 +317,19 @@ public class Polygon extends Model {
                     turtle.setHeading(startOfBranch.getHeading());
                     turtle.penDown();
                 }
-                // TODO: Implement this
-                case '{' -> {
-                    continue;
-                }
                 case 'G' -> {
-                    continue;
+                    turtle.penUp();
+                    turtle.forward(stepSize);
+                    turtle.penDown();
                 }
                 case '.' -> {
                     turtle.recordVertex();
                 }
-                case '}' -> {
-                    continue;
-                }
-                default -> {
-                }
+                default -> System.out.println("Unimplemented Character: " + axiom.charAt(i));
             }
         }
 
         return lSystem;
-    }
-
-    // TODO: Implement this
-    public boolean isPolygon(Model m) {
-        return true;
     }
 
     /**
@@ -291,9 +360,6 @@ public class Polygon extends Model {
      *                 algorithm
      */
     public static TriangulateResult triangulateWithEarClipping(Vertex[] vertices) {
-        for (Vertex v : vertices) {
-            System.out.println(v.toString(3, 4));
-        }
         boolean success = true;
         int[] triangles = null;
         String err = "";
@@ -314,7 +380,6 @@ public class Polygon extends Model {
                 success = false;
             }
 
-
             if (!PolygonHelpers.isPlanar(vertices)) {
                 err = "The vertices are not planar.";
                 success = false;
@@ -325,22 +390,21 @@ public class Polygon extends Model {
                 success = false;
             }
 
-            // if (PolygonHelpers.containsColinearEdges(vertices)) {
-            //     err = "The vertex list contains colinear edges.";
-            //     success = false;
-            // }
-            //
-            // PolygonHelpers.ComputePolygonArea(vertices, out float area, out WindingOrder
-            // windingOrder);
-            //
-            // if(windingOrder is WindingOrder.Invalid) {
-            // err = "The vertices list does not contain a valid polygon.";
-            // return false;
-            // }
-            //
-            // if(windingOrder is WindingOrder.CounterClockwise) {
-            // Array.Reverse(vertices);
-            // }
+            System.out.println("Before: ");
+            for (Vertex v : vertices) {
+                System.out.println(v.toString(3, 4));
+            }
+
+            double area = PolygonHelpers.getArea(vertices);
+            if (area < 0) {
+                PolygonHelpers.reverseArrayInPlace(vertices);
+            }
+
+            System.out.println("After: ");
+            for (Vertex v : vertices) {
+                System.out.println(v.toString(3, 4));
+            }
+
 
             break;
         }
@@ -426,3 +490,4 @@ public class Polygon extends Model {
         return new TriangulateResult(success, triangles, err);
     }
 }
+
