@@ -6,15 +6,16 @@
 
 package renderer.models_L.turtlegraphics;
 
+import renderer.models_L.turtlegraphics.Turtle2D;
 import renderer.scene.Model;
 
 /**
    https://inventwithpython.com/recursion/chapter9.html#calibre_link-350
 */
-public class HilbertCurveTurtle extends Turtle
+public class HilbertCurveTurtle extends Turtle2D
 {
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n       number of levels for the Hibert curve
       @param length  side length
    */
@@ -25,11 +26,11 @@ public class HilbertCurveTurtle extends Turtle
 
 
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n       number of levels for the Hibert curve
       @param length  side length
-      @param xPos    the intial x-coordinate for this {@link Turtle}
-      @param yPos    the intial y-coordinate for this {@link Turtle}
+      @param xPos    the intial x-coordinate for this {@link Turtle2D}
+      @param yPos    the intial y-coordinate for this {@link Turtle2D}
    */
    public HilbertCurveTurtle(final Model model, final int n, final double length,
                             final double xPos, final double yPos)
@@ -39,12 +40,12 @@ public class HilbertCurveTurtle extends Turtle
 
 
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n       number of levels for the Hibert curve
       @param length  side length
-      @param xPos    the intial x-coordinate for this {@link Turtle}
-      @param yPos    the intial y-coordinate for this {@link Turtle}
-      @param z       the z-plane for this {@code Turtle}
+      @param xPos    the intial x-coordinate for this {@link Turtle2D}
+      @param yPos    the intial y-coordinate for this {@link Turtle2D}
+      @param z       the z-plane for this {@code Turtle2D}
    */
    public HilbertCurveTurtle(final Model model, final int n, final double length,
                             final double xPos, final double yPos, final double z)

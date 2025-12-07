@@ -61,6 +61,7 @@
 
 package renderer.models_L.turtlegraphics;
 
+import renderer.models_L.turtlegraphics.TurtleState3D;
 import renderer.scene.*;
 import renderer.scene.Vector;
 import renderer.scene.primitives.*;
@@ -168,57 +169,6 @@ public class Turtle3D {
      */
     public void penUp() {
         penDown = false;
-    }
-
-    /**
-     * Get the current x position of this {@code Turtle3D}.
-     *
-     * @return the x position of this {@code Turtle3D}
-     */
-    public double getXPos() {
-        return this.xPos;
-    }
-
-    /**
-     * Get the current y position of this {@code Turtle3D}.
-     *
-     * @return the y position of this {@code Turtle3D}
-     */
-    public double getYPos() {
-        return this.yPos;
-    }
-
-    /**
-     * Get the current z position of this {@code Turtle3D}.
-     *
-     * @return the z position of this {@code Turtle3D}
-     */
-    public double getZPos() {
-        return this.zPos;
-    }
-
-    public Vector getLeft() {
-        return this.left;
-    }
-
-    public Vector getHeading() {
-        return this.heading;
-    }
-
-    public Vector getUp() {
-        return this.up;
-    }
-
-    public void setLeft(Vector left) {
-        this.left = left;
-    }
-
-    public void setHeading(Vector heading) {
-        this.heading = heading;
-    }
-
-    public void setUp(Vector up) {
-        this.up = up;
     }
 
     public void resetAxes() {
@@ -417,7 +367,6 @@ public class Turtle3D {
         this.zPos = zOld + (stepSize * distance * this.heading.z);
 
         if (penDown) {
-            System.out.println("I'm Here!");
             final int index = this.model.vertexList.size();
 
             final Vertex oldVertex = new Vertex(xOld, yOld, zOld);
@@ -456,6 +405,39 @@ public class Turtle3D {
     public void resize(final double s) {
         stepSize = s * stepSize;
     }
+
+    /**
+     * get the xPos, yPos, zPos, left {@link Vector}, heading {@link Vector} and up {@link Vector}
+     * encapsulated in a {@link TurtleState3D} Object.
+     *
+     * @return TurtleState3D
+     */
+    public TurtleState3D getTurtleState() {
+        return new TurtleState3D(xPos, yPos, zPos, left, heading, up);
+    }
+
+    /**
+     * Set each of the local axis {@link Vector}s
+     *
+     * @param heading
+     * @param left
+     * @param up
+     */
+    public void setOrientation(Vector heading, Vector left, Vector up) {
+        this.heading = heading;
+        this.left = left;
+        this.up = up;
+    }
+
+    public double getXPos() { return this.xPos; }
+    public double getYPos() { return this.yPos; }
+    public double getZPos() { return this.zPos; }
+    public Vector getLeft() { return this.left; }
+    public Vector getHeading() { return this.heading; }
+    public Vector getUp() { return this.up; }
+    public void setLeft(Vector left) { this.left = left; }
+    public void setHeading(Vector heading) { this.heading = heading; }
+    public void setUp(Vector up) { this.up = up; }
 
     /**
      * For debugging.

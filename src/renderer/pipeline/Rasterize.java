@@ -40,6 +40,16 @@ public class Rasterize
 
          if (p instanceof LineSegment)
          {
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println("=== === === Rasterize === === ===");
+            System.out.println(model);
             Rasterize_Line.rasterize(model, (LineSegment)p, vp);
          }
          else if (p instanceof Points)

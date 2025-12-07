@@ -129,7 +129,7 @@ public class StochasticLSystem {
     public Model draw() {
         // Hand the final expanded string to a deterministic LSystem and reuse its draw()
         LSystem2D base = new LSystem2D(this.axiom, this.stepSize, this.delta, this.xHome, this.yHome);
-        return base.draw();
+        return base.build();
     }
 
     /**

@@ -679,16 +679,16 @@ public class Model
        Vertex init = vertexList.get(0);
        double minX = init.x, maxX = init.x;
        double minY = init.y, maxY = init.y;
-       
+
        for (Vertex v : vertexList) {
-	   if (minX > v.x) 
-	       minX = v.x;
-	   if (maxX < v.x) 
-	       maxX = v.x;
-	   if (minY > v.y)
-	       minY = v.y;
-	   if (maxY < v.y) 
-	       maxY = v.y;
+           if (minX > v.x)
+               minX = v.x;
+           if (maxX < v.x)
+               maxX = v.x;
+           if (minY > v.y)
+               minY = v.y;
+           if (maxY < v.y)
+               maxY = v.y;
        }
 
        int width = (int) Math.round(maxX - minX);

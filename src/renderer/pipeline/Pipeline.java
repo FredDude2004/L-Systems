@@ -156,6 +156,15 @@ public final class Pipeline
                                     final Matrix ctm,
                                     final FrameBuffer.Viewport vp)
    {
+
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println("=== === === Pipeline === === ===");
+      System.out.println(model);
       logMessage("====== Render Model: " + model.name + " ======");
 
       CheckModel.check(model);

@@ -10,7 +10,13 @@ public class TurtleState3D {
     private Vector heading;
     private Vector up;
 
-    public TurtleState3D(final double x, final double y, final double z, final Vector left, final Vector heading, final Vector up) {
+    public TurtleState3D(final double x,
+                         final double y,
+                         final double z,
+                         final Vector left,
+                         final Vector heading,
+                         final Vector up)
+    {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -20,36 +26,28 @@ public class TurtleState3D {
         this.up = up;
     }
 
-    public double getX() {
-        return this.x;
+
+    public Matrix buildMatrixFromTurtleState() {
+        Vector c1 = new Vector(left.x,    left.y,    left.z,    0.0);
+        Vector c2 = new Vector(up.x,      up.y,      up.z,      0.0);
+        Vector c3 = new Vector(heading.x, heading.y, heading.z, 0.0);
+        Vector c4 = new Vector(x,         y,         z,         0.0);
+
+        return Matrix.buildFromColumns(c1, c2, c3, c4);
     }
 
-    public double getY() {
-        return this.y;
-    }
-
-
-    public double getZ() {
-        return this.z;
-    }
-
-    public Vector getLeft() {
-        return this.left;
-    }
-
-    public Vector getHeading() {
-        return this.heading;
-    }
-
-    public Vector getUp() {
-        return this.up;
-    }
+    public double getX() { return this.x; }
+    public double getY() { return this.y; }
+    public double getZ() { return this.z; }
+    public Vector getLeft() { return this.left; }
+    public Vector getHeading() { return this.heading; }
+    public Vector getUp() { return this.up; }
 
     @Override
     public String toString() {
         String turtleState3D = "(" + this.x + ", " + this.y + ", " + this.z + ")" + "\n" +
-                               "Left Vector: " + this.left+ "\n" + 
-                               "Heading Vector: " + this.heading + "\n" + 
+                               "Left Vector: " + this.left+ "\n" +
+                               "Heading Vector: " + this.heading + "\n" +
                                "Up Vector: " + this.up + "\n";
         return turtleState3D;
     }

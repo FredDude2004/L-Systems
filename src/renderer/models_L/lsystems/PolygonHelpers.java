@@ -133,6 +133,8 @@ public class PolygonHelpers {
      * then the polygon is planar.
      */
     public static boolean isPlanar(Vertex[] vertices) {
+        if (vertices == null)
+            throw new NullPointerException();
         // Naive case: all z coordinates equal
         double z0 = vertices[0].z;
         boolean planar = true;

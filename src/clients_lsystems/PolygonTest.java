@@ -41,7 +41,7 @@ public class PolygonTest {
         // Pipeline.render(scene, fb);
         // fb.dumpFB2File("manualSquare.ppm");
 
-        Polygon square = new Polygon(".f+.f+.f+.f", 90.0);
+        Model square = new Polygon(".f+.f+.f+.f", 90.0);
         square.doBackFaceCulling = false;
         // System.out.println(square);
 

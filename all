@@ -225,12 +225,12 @@ public class Polygon extends Model {
                                                          final Color c2,
                                                          final Color c3)
     {
-        // System.out.println("buildPolygonWithTurtle2D: axiom: " + axiom +
-        //                     "\n stepSize: " + stepSize +
-        //                     "\n delta: " + delta +
-        //                     "\n c1: " + c1 +
-        //                     "\n c2: " + c2 +
-        //                     "\n c3: " + c3);
+        System.out.println("buildPolygonWithTurtle2D: axiom: " + axiom +
+                            "\n stepSize: " + stepSize +
+                            "\n delta: " + delta +
+                            "\n c1: " + c1 +
+                            "\n c2: " + c2 +
+                            "\n c3: " + c3);
         boolean success = true;
         Model polygon = null;
         String err = "";
@@ -238,9 +238,8 @@ public class Polygon extends Model {
 
         while (success) {
             polygon = build(axiom, stepSize, delta);
-            // System.out.println("buildPolygonWithTurtle2D -> polygon: \n" + polygon);
+            System.out.println("buildPolygonWithTurtle2D -> polygon: \n" + polygon);
             polygon.addColor(c1, c2, c3);
-
             Vertex[] vertices = new Vertex[polygon.vertexList.size()];
             for (int i = 0; i < vertices.length; i++) {
                 vertices[i] = polygon.vertexList.get(i);
@@ -324,7 +323,7 @@ public class Polygon extends Model {
      *                 Returns a {@link Model}
      */
     public static Model build(String axiom, double stepSize, double delta) {
-        // System.out.println("=== === === BUILD CALLED === === === \n" + "axiom: " + axiom + "\ndelta: " + delta);
+        System.out.println("=== === === BUILD CALLED === === === \n" + "axiom: " + axiom + "\ndelta: " + delta);
         Model lSystem = new Model("lSystem");
         Turtle2D turtle = new Turtle2D(lSystem);
         Stack<TurtleState2D> branchStack = new Stack<>();
@@ -364,7 +363,7 @@ public class Polygon extends Model {
                 case '.' -> {
                     turtle.recordVertex();
                 }
-                default -> {/*System.out.println("Unimplemented Character: " + axiom.charAt(i));*/ }
+                default -> System.out.println("Unimplemented Character: " + axiom.charAt(i));
             }
         }
 
@@ -479,10 +478,6 @@ public class Polygon extends Model {
                     Vertex p = vertices[j];
 
                     if (PolygonHelpers.isPointInTriangle(p, vb, va, vc)) {
-                        // System.out.println("IM STUCK");
-                        // for (Vertex v : vertices) {
-                        //     System.out.println(v.toString(10, 4));
-                        // }
                         isEar = false;
                         break;
                     }

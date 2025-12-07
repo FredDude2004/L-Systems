@@ -6,6 +6,7 @@
 
 package renderer.models_L.turtlegraphics;
 
+import renderer.models_L.turtlegraphics.TurtleState2D;
 import renderer.scene.*;
 import renderer.scene.primitives.*;
 
@@ -186,6 +187,14 @@ public class Turtle2D
       return this.heading;
    }
 
+   /**
+      Get the XPos, YPos, and heading encapsulated in a {@link TurtleState2D} Object
+
+      @return TurtleState2D
+   */
+   public TurtleState2D getTurtleState() {
+       return new TurtleState2D(xPos, yPos, 0.0, heading);
+   }
 
    /**
       Set the heading of this {@code Turtle2D}.

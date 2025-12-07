@@ -45,6 +45,8 @@ public class Rasterize_Line
                                 final LineSegment ls,
                                 final FrameBuffer.Viewport vp)
    {
+       System.out.println("=== === === Rasterize_Line === === ===");
+       System.out.println(model);
       // Make local copies of several values.
       final int w = vp.getWidthVP();
       final int h = vp.getHeightVP();

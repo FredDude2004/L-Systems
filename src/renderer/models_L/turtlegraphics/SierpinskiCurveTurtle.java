@@ -11,10 +11,10 @@ import renderer.scene.Model;
 /**
    https://en.wikipedia.org/wiki/Sierpi%C5%84ski_curve#Arrowhead_curve
 */
-public class SierpinskiCurveTurtle extends Turtle
+public class SierpinskiCurveTurtle extends Turtle2D
 {
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n       number of levels for the Sierpinski curve
       @param length  side length
    */
@@ -25,11 +25,11 @@ public class SierpinskiCurveTurtle extends Turtle
 
 
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n       number of levels for the Sierpinski curve
       @param length  side length
-      @param xPos    the intial x-coordinate for this {@link Turtle}
-      @param yPos    the intial y-coordinate for this {@link Turtle}
+      @param xPos    the intial x-coordinate for this {@link Turtle2D}
+      @param yPos    the intial y-coordinate for this {@link Turtle2D}
    */
    public SierpinskiCurveTurtle(final Model model, final int n, final double length,
                                 final double xPos, final double yPos)
@@ -39,12 +39,12 @@ public class SierpinskiCurveTurtle extends Turtle
 
 
    /**
-      @param model   a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model   a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n       number of levels for the Sierpinski curve
       @param length  side length
-      @param xPos    the intial x-coordinate for this {@link Turtle}
-      @param yPos    the intial y-coordinate for this {@link Turtle}
-      @param z       the z-plane for this {@code Turtle}
+      @param xPos    the intial x-coordinate for this {@link Turtle2D}
+      @param yPos    the intial y-coordinate for this {@link Turtle2D}
+      @param z       the z-plane for this {@code Turtle2D}
    */
    public SierpinskiCurveTurtle(final Model model, final int n, final double length,
                                 final double xPos, final double yPos, final double z)

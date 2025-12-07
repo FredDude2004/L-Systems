@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.awt.Color;
 
-//TODO: Make this extend Model
-
-public class LSystem3D {
+public class LSystem3D extends Model {
     private String axiom;
     private final double stepSize;
     private final double delta;
@@ -21,6 +19,9 @@ public class LSystem3D {
     private double zHome;
     private final HashMap<Character, String> productions = new HashMap<>();
     private final ArrayList<Color> colorList = new ArrayList<>();
+    public double minX, minY, maxX, maxY, minZ, maxZ; // bounding box
+    private double leafScaler = 0.25; // make the lines that define a leaf 1/4 of the size of regular lines
+    private int colorIdx = 0;
 
     /**
       @param axiom       the starting {@link String} that the productions will expand
@@ -74,17 +75,6 @@ public class LSystem3D {
     public final void addProduction(final Production... pArray) {
         for (Production p : pArray) {
             this.productions.put(p.predecessor, p.successor);
-        }
-    }
-
-    /**
-      Add a {@link Production} to this {@code LSystem3D}
-
-      @param pArray  array of {@link Production} objects to add to this {@code LSystem3D}
-    */
-    public final void addColor(final Color... cArray) {
-        for (Color c : cArray) {
-            colorList.add(c);
         }
     }
 
@@ -146,86 +136,97 @@ public class LSystem3D {
 
         Returns a {@link Model}
     */
-    public Model draw() {
-        Model lSystem = new Model("lSystem");
-        Turtle3D turtle = new Turtle3D(lSystem, "lSystem", this.xHome, this.yHome, this.zHome);
+    public void build() {
+        Turtle3D turtle = new Turtle3D(this, "lSystem", this.xHome, this.yHome, this.zHome);
         Stack<TurtleState3D> branchStack = new Stack<>();
-        String polygon = "";
-        ArrayList<String> polygons = new ArrayList<>();
+        String polygonAxiom = "";
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch(axiom.charAt(i)) {
-                case 'F' -> turtle.forward(this.stepSize);
+                case 'F' -> {
+                    turtle.forward(this.stepSize);
+                    updateBounds(turtle.getXPos(), turtle.getYPos(), turtle.getZPos());
+                }
                 case 'f' -> {
                     turtle.penUp();
                     turtle.forward(this.stepSize);
                     turtle.penDown();
                 }
-                case '+' -> turtle.yaw(this.delta);
-                case '-' -> turtle.yaw(-this.delta);
+                case '+' -> turtle.yaw(-this.delta);
+                case '-' -> turtle.yaw(this.delta);
                 case '^' -> turtle.pitch(this.delta);
                 case '&' -> turtle.pitch(-this.delta);
                 case '\\' -> turtle.roll(this.delta);
                 case '/' -> turtle.roll(-this.delta);
                 case '|' -> turtle.yaw(180.0);
                 case '$' -> turtle.resetAxes();
-                case '[' -> {
-                    double startBranchX = turtle.getXPos();
-                    double startBranchY = turtle.getYPos();
-                    double startBranchZ = turtle.getZPos();
-                    branchStack.push(new TurtleState3D(startBranchX, startBranchY, startBranchZ, turtle.getLeft(), turtle.getHeading(), turtle.getUp()));
-                }
+                case '[' -> branchStack.push(turtle.getTurtleState());
                 case ']' -> {
                     turtle.penUp();
                     TurtleState3D startOfBranch = branchStack.pop();
                     turtle.moveTo(startOfBranch.getX(), startOfBranch.getY(), startOfBranch.getZ());
-                    turtle.setHeading(startOfBranch.getHeading());
-                    turtle.setLeft(startOfBranch.getLeft());
-                    turtle.setUp(startOfBranch.getUp());
+                    turtle.setOrientation(startOfBranch.getHeading(), startOfBranch.getLeft(), startOfBranch.getUp());
                     turtle.penDown();
                 }
-                case '{' -> {
-                    i++;
-                    while (axiom.charAt(i) != '}') {
-                        polygon += axiom.charAt(i);
+                case '%' -> {
+                    while (axiom.charAt(i) != ']') {
                         i++;
                     }
-                    String name = "polygon" + polygons.size();
-                    Model p = new Polygon(name, polygon, delta);
 
+                    turtle.penUp();
+                    TurtleState3D startOfBranch = branchStack.pop();
+                    turtle.moveTo(startOfBranch.getX(), startOfBranch.getY(), startOfBranch.getZ());
+                    turtle.setOrientation(startOfBranch.getHeading(), startOfBranch.getLeft(), startOfBranch.getUp());
+                    turtle.penDown();
                 }
-                default -> {}
+                case '`' -> incrementColorIdx();
+                case '{' -> {
+                    String polygonName = "Polygon at axiom.charAt(" + i + ")";
+                    polygonAxiom += '{';
+                    while (axiom.charAt(++i) != '}') {
+                        polygonAxiom += axiom.charAt(i);
+                    }
+                    polygonAxiom += '}';
+
+                    TurtleState3D state = turtle.getTurtleState();
+                    Color c = Color.black;
+                    if (colorList.size() > 0)
+                        c = colorList.get(colorIdx);
+                    Model p = new Polygon(polygonName,
+                                          polygonAxiom,
+                                          delta,
+                                          stepSize * leafScaler,
+                                          state.buildMatrixFromTurtleState(),
+                                          c);
+                    super.addNestedModel(p);
+                    polygonAxiom = "";
+                }
+                default -> {/*System.out.println("Unimplemented Character: " + axiom.charAt(i));*/ }
             }
         }
-
-        return lSystem;
     }
 
-    /**
-      Change the starting X of the Turtle
-
-      @param newXHome  a double that sets the X corrdinate
-    */
-    public final void setXHome(final double newXHome) {
-        this.xHome = newXHome;
+    private void incrementColorIdx() {
+        if (colorIdx < colorList.size() - 1)
+            colorIdx++;
+        else
+            colorIdx = 0;
     }
 
-    /**
-      Change the starting Y of the Turtle
-
-      @param newYHome  a double that sets the Y corrdinate
-    */
-    public final void setYHome(final double newYHome) {
-        this.yHome = newYHome;
+    private void updateBounds(double x, double y, double z) {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        minZ = Math.min(minZ, z);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+        maxZ = Math.max(maxZ, z);
     }
 
-    /**
-     Change the starting Z of the Turtle
+    // public
 
-     @param newZHome  a double that sets the Z corrdinate
-     */
-    public final void setZHome(final double newZHome) {
-        this.zHome = newZHome;
-    }
+    public final void setXHome(final double newXHome) { this.xHome = newXHome; }
+    public final void setYHome(final double newYHome) { this.yHome = newYHome; }
+    public final void setZHome(final double newZHome) { this.zHome = newZHome; }
+    public final void setLeafScaler(final double newLeafScaler) { this.leafScaler = newLeafScaler; }
 }
 

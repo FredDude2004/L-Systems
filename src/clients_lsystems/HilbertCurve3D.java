@@ -10,9 +10,9 @@ import renderer.scene.util.ModelShading;
 
 import java.awt.Color;
 
-public class HilbertCurve3D 
+public class HilbertCurve3D
 {
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         final double fov = 35.0;
         final double aspect = 1.0;
@@ -35,7 +35,7 @@ public class HilbertCurve3D
         lSystem.addProduction(productionOne, productionTwo, productionThree, productionFour);
 
         lSystem.expand(3);
-        Model lSystemModel = lSystem.draw();
+        Model lSystemModel = lSystem.build();
 
         ModelShading.setColor(lSystemModel, Color.white);
         scene.getPosition(0).setModel(lSystemModel);

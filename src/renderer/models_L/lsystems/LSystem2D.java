@@ -1,6 +1,5 @@
 package renderer.models_L.lsystems;
 
-import renderer.models_L.turtlegraphics.Turtle;
 import renderer.models_L.turtlegraphics.Turtle2D;
 import renderer.models_L.turtlegraphics.TurtleState2D;
 import renderer.scene.Model;
@@ -9,11 +8,11 @@ import renderer.scene.Vertex;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Stack;
+
+import java.awt.Color;
 import java.awt.Rectangle;
 
-//TODO: Make this extend Model
-
-public class LSystem2D {
+public class LSystem2D extends Model {
     private String axiom;
     private final double stepSize;
     private final double delta;
@@ -21,9 +20,9 @@ public class LSystem2D {
     private double yHome;
     private final HashMap<Character, String> productions = new HashMap<>();
     private final HashMap<Character, Model> surfaces = new HashMap<>();
-
-    // variables for the bounding box of the final L-System
-    private double minX, minY, maxX, maxY;
+    private double minX, minY, maxX, maxY; // bounding box
+    private double leafScaler = 0.25; // make the lines that define a leaf 1/4 of the size of regular lines
+    private int colorIdx = 0;
 
     /**
      * @param axiom    the starting {@link String} that the productions will expand
@@ -31,7 +30,7 @@ public class LSystem2D {
      * @param delta    the angle that the turtle will turn, pitch or roll
      */
     public LSystem2D(final String axiom, final double stepSize, final double delta) {
-        this(axiom, stepSize, delta, 0.0, 0.0, new ArrayList<>());
+        this("L-System", axiom, stepSize, delta, 0.0, 0.0, new ArrayList<>());
     }
 
     /**
@@ -41,9 +40,13 @@ public class LSystem2D {
      * @param xHome    the X coordinate of the L-Systems Turtle
      * @param yHome    the Y coordinate of the L-Systems Turtle
      */
-    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome,
-            final double yHome) {
-        this(axiom, stepSize, delta, xHome, yHome, new ArrayList<>());
+    public LSystem2D(final String axiom,
+                     final double stepSize,
+                     final double delta,
+                     final double xHome,
+                     final double yHome)
+    {
+        this("L-System", axiom, stepSize, delta, xHome, yHome, new ArrayList<>());
     }
 
     /**
@@ -55,8 +58,9 @@ public class LSystem2D {
      * @param yHome       the Y coordinate of the L-Systems Turtle
      * @param productions the productions that each character will map to
      */
-    public LSystem2D(final String axiom, final double stepSize, final double delta, final double xHome,
+    public LSystem2D(final String name, final String axiom, final double stepSize, final double delta, final double xHome,
             final double yHome, final ArrayList<Production> productions) {
+        super(name);
         this.axiom = axiom;
         this.stepSize = stepSize;
         this.delta = delta;
@@ -85,8 +89,9 @@ public class LSystem2D {
 
         kochSnow.addProduction(p1);
         kochSnow.expand(expansions);
+        kochSnow.build();
 
-        return kochSnow.draw();
+        return kochSnow;
     }
 
     /**
@@ -101,8 +106,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -117,8 +123,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -133,8 +140,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -151,8 +159,9 @@ public class LSystem2D {
         curve.addProduction(p1);
         curve.addProduction(p2);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -167,8 +176,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -183,8 +193,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -199,8 +210,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -215,8 +227,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -231,8 +244,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -247,8 +261,9 @@ public class LSystem2D {
 
         curve.addProduction(p1);
         curve.expand(expansions);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -267,8 +282,9 @@ public class LSystem2D {
         String axiom = curve.getAxiom();
         axiom = axiom.replace('A', 'F').replace('B', 'F');
         curve.setAxiom(axiom);
+        curve.build();
 
-        return curve.draw();
+        return curve;
     }
 
     /**
@@ -287,8 +303,9 @@ public class LSystem2D {
         String axiom = sierpinTri.getAxiom();
         axiom = axiom.replace('A', 'F').replace('B', 'F');
         sierpinTri.setAxiom(axiom);
+        sierpinTri.build();
 
-        return sierpinTri.draw();
+        return sierpinTri;
     }
 
     /**
@@ -303,8 +320,9 @@ public class LSystem2D {
 
         tree.addProduction(p1);
         tree.expand(expansions);
+        tree.build();
 
-        return tree.draw();
+        return tree;
     }
 
     /**
@@ -319,8 +337,9 @@ public class LSystem2D {
 
         tree.addProduction(p1);
         tree.expand(expansions);
+        tree.build();
 
-        return tree.draw();
+        return tree;
     }
 
     /**
@@ -335,8 +354,9 @@ public class LSystem2D {
 
         tree.addProduction(p1);
         tree.expand(expansions);
+        tree.build();
 
-        return tree.draw();
+        return tree;
     }
 
     /**
@@ -352,8 +372,9 @@ public class LSystem2D {
 
         tree.addProduction(p1, p2);
         tree.expand(expansions);
+        tree.build();
 
-        return tree.draw();
+        return tree;
     }
 
     /**
@@ -369,8 +390,9 @@ public class LSystem2D {
 
         tree.addProduction(p1, p2);
         tree.expand(expansions);
+        tree.build();
 
-        return tree.draw();
+        return tree;
     }
 
     /**
@@ -386,26 +408,9 @@ public class LSystem2D {
 
         tree.addProduction(p1, p2);
         tree.expand(expansions);
+        tree.build();
 
-        return tree.draw();
-    }
-
-    /**
-     * Change the starting X of the Turtle
-     *
-     * @param newXHome a double that sets the X corrdinate
-     */
-    public final void setXHome(final double newXHome) {
-        this.xHome = newXHome;
-    }
-
-    /**
-     * Change the starting Y of the Turtle
-     *
-     * @param newYHome a double that sets the Y corrdinate
-     */
-    public final void setYHome(final double newYHome) {
-        this.yHome = newYHome;
+        return tree;
     }
 
     /**
@@ -453,7 +458,7 @@ public class LSystem2D {
     }
 
     /**
-     * Draws the {@code LSystem} according to these rules:
+     * Builds the {@code LSystem} according to these rules:
      *
      * <br>
      * 'F' Move forward and draw a line. <br>
@@ -468,14 +473,11 @@ public class LSystem2D {
      *
      * Creates a bounding box that can be retrieved with getBoundingBox()
      *
-     * Returns a {@link Model}
      */
-    public Model draw() {
-        Model lSystem = new Model("lSystem");
-        Turtle2D turtle = new Turtle2D(lSystem, this.xHome, this.yHome, 0.0);
+    public void build() {
+        Turtle2D turtle = new Turtle2D(this, this.xHome, this.yHome, 0.0);
         Stack<TurtleState2D> branchStack = new Stack<>();
-        String polygon = "";
-        ArrayList<String> polygons = new ArrayList<>();
+        String polygonAxiom = "";
 
         for (int i = 0; i < this.axiom.length(); ++i) {
             switch (axiom.charAt(i)) {
@@ -492,11 +494,7 @@ public class LSystem2D {
                 case '-' -> turtle.turn(this.delta);
                 case '|' -> turtle.turn(180.0);
                 case '$' -> turtle.setHeading(0.0);
-                case '[' -> {
-                    double startBranchX = turtle.getXPos();
-                    double startBranchY = turtle.getYPos();
-                    branchStack.push(new TurtleState2D(startBranchX, startBranchY, 0.0, turtle.getHeading()));
-                }
+                case '[' -> branchStack.push(turtle.getTurtleState());
                 case ']' -> {
                     turtle.penUp();
                     TurtleState2D startOfBranch = branchStack.pop();
@@ -504,20 +502,48 @@ public class LSystem2D {
                     turtle.setHeading(startOfBranch.getHeading());
                     turtle.penDown();
                 }
-                case '{' -> {
-                    i++;
-                    while (axiom.charAt(i) != '}') {
-                        polygon += axiom.charAt(i);
+                case '%' -> {
+                    while (axiom.charAt(i) != ']') {
                         i++;
                     }
+
+                    turtle.penUp();
+                    TurtleState2D startOfBranch = branchStack.pop();
+                    turtle.moveTo(startOfBranch.getX(), startOfBranch.getY());
+                    turtle.setHeading(startOfBranch.getHeading());
+                    turtle.penDown();
                 }
-                default -> {
-                    System.out.println("Unimplemented Character: " + axiom.charAt(i));
+                case '`' -> incrementColorIdx();
+                case '{' -> {
+                    String polygonName = "Polygon at axiom.charAt(" + i + ")";
+                    while (axiom.charAt(i) != '}') {
+                        polygonAxiom += axiom.charAt(i);
+                        i++;
+                    }
+
+                    TurtleState2D state = turtle.getTurtleState();
+                    Color c = Color.black;
+                    if (colorList.size() > 0)
+                        c = colorList.get(colorIdx);
+                    Model p = new Polygon(polygonName,
+                                          polygonAxiom,
+                                          delta,
+                                          stepSize * 0.25,
+                                          state.buildMatrixFromTurtleState(),
+                                          c);
+                    super.addNestedModel(p);
                 }
+                default -> {/*System.out.println("Unimplemented Character: " + axiom.charAt(i));*/ }
             }
         }
+    }
 
-        return lSystem;
+    private void incrementColorIdx() {
+        if (colorIdx < colorList.size() - 1)
+            colorIdx++;
+        else
+            colorIdx = 0;
+
     }
 
     private void updateBounds(double x, double y) {
@@ -535,11 +561,9 @@ public class LSystem2D {
         return new Rectangle(x, y, width, height);
     }
 
-    public String getAxiom() {
-        return axiom;
-    }
-
-    public void setAxiom(final String axiom) {
-        this.axiom = axiom;
-    }
+    public final void setXHome(final double newXHome) { this.xHome = newXHome; }
+    public final void setYHome(final double newYHome) { this.yHome = newYHome; }
+    public String getAxiom() { return axiom; }
+    public void setAxiom(final String axiom) { this.axiom = axiom; }
+    public final void setLeafScaler(final double newLeafScaler) { this.leafScaler = newLeafScaler; }
 }

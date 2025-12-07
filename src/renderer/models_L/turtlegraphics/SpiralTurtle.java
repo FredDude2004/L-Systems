@@ -11,10 +11,10 @@ import renderer.scene.Model;
 /**
    https://commons.wikimedia.org/wiki/File:Turtle_Graphics_Spiral.svg
 */
-public class SpiralTurtle extends Turtle
+public class SpiralTurtle extends Turtle2D
 {
    /**
-      @param model  a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model  a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n      number of spirals
    */
    public SpiralTurtle(final Model model, final int n)
@@ -24,10 +24,10 @@ public class SpiralTurtle extends Turtle
 
 
    /**
-      @param model  a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model  a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n      number of spirals
-      @param xPos   the intial x-coordinate for this {@link Turtle}
-      @param yPos   the intial y-coordinate for this {@link Turtle}
+      @param xPos   the intial x-coordinate for this {@link Turtle2D}
+      @param yPos   the intial y-coordinate for this {@link Turtle2D}
    */
    public SpiralTurtle(final Model model, final int n,
                        final double xPos, final double yPos)
@@ -37,11 +37,11 @@ public class SpiralTurtle extends Turtle
 
 
    /**
-      @param model  a reference to the {@link Model} that this {@code Turtle} is builing
+      @param model  a reference to the {@link Model} that this {@code Turtle2D} is builing
       @param n      number of spirals
-      @param xPos   the intial x-coordinate for this {@link Turtle}
-      @param yPos   the intial y-coordinate for this {@link Turtle}
-      @param z      the z-plane for this {@code Turtle}
+      @param xPos   the intial x-coordinate for this {@link Turtle2D}
+      @param yPos   the intial y-coordinate for this {@link Turtle2D}
+      @param z      the z-plane for this {@code Turtle2D}
    */
    public SpiralTurtle(final Model model, final int n,
                        final double xPos, final double yPos, double z)
