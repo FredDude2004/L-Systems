@@ -157,14 +157,6 @@ public final class Pipeline
                                     final FrameBuffer.Viewport vp)
    {
 
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println("=== === === Pipeline === === ===");
-      System.out.println(model);
       logMessage("====== Render Model: " + model.name + " ======");
 
       CheckModel.check(model);

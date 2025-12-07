@@ -18,7 +18,6 @@ public class LSystem3D extends Model {
     private double yHome;
     private double zHome;
     private final HashMap<Character, String> productions = new HashMap<>();
-    private final ArrayList<Color> colorList = new ArrayList<>();
     public double minX, minY, maxX, maxY, minZ, maxZ; // bounding box
     private double leafScaler = 0.25; // make the lines that define a leaf 1/4 of the size of regular lines
     private int colorIdx = 0;

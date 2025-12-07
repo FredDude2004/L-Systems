@@ -45,8 +45,6 @@ public class Rasterize_Line
                                 final LineSegment ls,
                                 final FrameBuffer.Viewport vp)
    {
-       System.out.println("=== === === Rasterize_Line === === ===");
-       System.out.println(model);
       // Make local copies of several values.
       final int w = vp.getWidthVP();
       final int h = vp.getHeightVP();
@@ -58,6 +56,8 @@ public class Rasterize_Line
 
       final int cIndex0 = ls.cIndexList.get(0);
       final int cIndex1 = ls.cIndexList.get(1);
+      System.out.println("cIndex0: " + cIndex0);
+      System.out.println("cIndex1: " + cIndex1);
       final float[] c0 = model.colorList.get(cIndex0).getRGBComponents(null);
       final float[] c1 = model.colorList.get(cIndex1).getRGBComponents(null);
       float r0 = c0[0], g0 = c0[1], b0 = c0[2];

@@ -38,8 +38,9 @@ public class BushWithLeaves {
         Production p3 = new Production('S', "F L");
         Production p4 = new Production('L', "[’’’∧∧{-f+f+f-|-f+f+f}]");
         bushWithLeaves.addProduction(p1, p2, p3, p4);
-        bushWithLeaves.expand(3);
+        bushWithLeaves.expand(2);
         bushWithLeaves.build();
+        bushWithLeaves.doBackFaceCulling = false;
 
         System.out.println(bushWithLeaves);
 
@@ -55,6 +56,7 @@ public class BushWithLeaves {
         double bottom = -1.73205;
         double top    =  1.73205;
 
+        scene.debug = true;
         scene.changeCamera(Camera.projPerspective(left, right, bottom, top));
         scene.camera.viewTranslate(0, 0, max);
 
