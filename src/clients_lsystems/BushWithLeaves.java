@@ -50,14 +50,14 @@ public class BushWithLeaves {
         maxZ = bushWithLeaves.maxZ;
         double m = Math.max(maxX, maxY);
         double max = Math.max(maxZ, m);
-
-        double left   = -1.73205;
-        double right  =  1.73205;
-        double bottom = -1.73205;
-        double top    =  1.73205;
-
-        scene.debug = true;
-        scene.changeCamera(Camera.projPerspective(left, right, bottom, top));
+        //
+        // double left   = -1.73205;
+        // double right  =  1.73205;
+        // double bottom = -1.73205;
+        // double top    =  1.73205;
+        //
+        // scene.debug = true;
+        // scene.changeCamera(Camera.projPerspective(left, right, bottom, top));
         scene.camera.viewTranslate(0, 0, max);
 
         scene.getPosition(0).setModel(bushWithLeaves);

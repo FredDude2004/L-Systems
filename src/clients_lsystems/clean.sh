@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-rm *.class && rm *.ppm rm *.png
+rm -rf *.class && rm -rf *.ppm && rm -rf *.png

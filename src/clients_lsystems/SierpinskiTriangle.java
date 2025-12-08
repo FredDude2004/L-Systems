@@ -19,7 +19,7 @@ public class SierpinskiTriangle {
 		final int height = 1024;
 		final FrameBuffer fb = new FrameBuffer(width, height, Color.white);
 
-		Model sierpinskiTriangle = LSystem2D.sierpinskiTriangle(8);
+		Model sierpinskiTriangle = LSystem2D.sierpinskiTriangle(2);
 		Rectangle r = sierpinskiTriangle.getBoundingBox();
 
 		ModelShading.setColor(sierpinskiTriangle, Color.black);
@@ -27,6 +27,9 @@ public class SierpinskiTriangle {
 				Matrix.translate(-(r.width / 2),
 						-(r.height / 2),
 						(-width / 2))));
+
+        System.out.println(sierpinskiTriangle);
+
 		fb.clearFB();
 		Pipeline.render(scene, fb);
 		fb.dumpFB2File("SierpinskiTriangle.ppm");
