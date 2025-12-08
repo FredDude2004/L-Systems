@@ -30,15 +30,15 @@ public class BushWithLeaves {
         // p3 : S → F L
         // p4 : L → [’’’∧∧{-f+f+f-|-f+f+f}]
         LSystem3D bushWithLeaves = new LSystem3D("A", 1.0, 22.5);
-        bushWithLeaves.addColor(new Color(0, 113, 0),
-                                new Color(0, 100, 0),
-                                new Color(0, 130, 0));
+        // bushWithLeaves.addColor(new Color(0, 113, 0),
+        //                         new Color(0, 100, 0),
+        //                         new Color(0, 130, 0));
         Production p1 = new Production('A', "[&FL!A]/////’[&FL!A]///////’[&FL!A]");
         Production p2 = new Production('F', "S ///// F");
         Production p3 = new Production('S', "F L");
         Production p4 = new Production('L', "[’’’∧∧{-f+f+f-|-f+f+f}]");
         bushWithLeaves.addProduction(p1, p2, p3, p4);
-        bushWithLeaves.expand(2);
+        bushWithLeaves.expand(7);
         bushWithLeaves.build();
         bushWithLeaves.doBackFaceCulling = false;
 
@@ -60,6 +60,7 @@ public class BushWithLeaves {
         // scene.changeCamera(Camera.projPerspective(left, right, bottom, top));
         scene.camera.viewTranslate(0, 0, max);
 
+        ModelShading.setColor(bushWithLeaves, Color.black);
         scene.getPosition(0).setModel(bushWithLeaves);
         fb.clearFB();
         Pipeline.render(scene, fb);
